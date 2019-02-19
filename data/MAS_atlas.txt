@@ -1,0 +1,8 @@
+/home/ys895/resize256/resize256-crop_x32/FromEugenio_prep/vols/990114_vc722.npz
+/home/ys895/resize256/resize256-crop_x32/FromEugenio_prep/vols/990210_vc792.npz
+/home/ys895/resize256/resize256-crop_x32/FromEugenio_prep/vols/990405_vc922.npz
+/home/ys895/resize256/resize256-crop_x32/FromEugenio_prep/vols/991006_vc1337.npz
+/home/ys895/resize256/resize256-crop_x32/FromEugenio_prep/vols/991120_vc1456.npz
+
+
+
