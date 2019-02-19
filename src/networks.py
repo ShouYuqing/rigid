@@ -106,6 +106,19 @@ def unet(vol_size, enc_nf, dec_nf, full_size=True):
     model = Model(inputs=[src, tgt], outputs=[y, flow])
     return model
 
+def rigid_net(vol_size, enc_nf, dec_nf):
+    """
+    architecture for rigid registration
+    :param vol_size: volume size
+    :param enc_nf: list of encoder
+    :param dec_nf: list of decoder
+    :return: model
+    """
+    unet_model = unet_core(vol_size, enc_nf, dec_nf, full_size = False)
+    [src, tgt] = unet_model.inputs
+    x_out = unet_model.outputs[-1]
+    
+
 
 def miccai2018_net(vol_size, enc_nf, dec_nf, use_miccai_int=True, int_steps=7, indexing='xy'):
     """
