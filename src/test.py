@@ -60,8 +60,8 @@ def test(model_name, iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,
 		pred = net.predict([X_vol, atlas_vol])
 
 	# Warp segments with flow
-	flow = pred[1][0, :, :, :, :]
-	sample = flow+grid#()
+	flow = pred[1][0, :, :, :, :]#(160,192,224,3)
+	sample = flow+grid#(160,192,224,3)
 	sample = np.stack((sample[:, :, :, 1], sample[:, :, :, 0], sample[:, :, :, 2]), 3)
 	warp_seg = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], sample, method='nearest', bounds_error=False, fill_value=0)
 
