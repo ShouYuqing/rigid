@@ -49,10 +49,10 @@ def test(model_name, iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,
 		net.load_weights('../models/' + model_name +
                          '/' + str(iter_num) + '.h5')
 
-	xx = np.arange(vol_size[1])
-	yy = np.arange(vol_size[0])
-	zz = np.arange(vol_size[2])
-	grid = np.rollaxis(np.array(np.meshgrid(xx, yy, zz)), 0, 4)
+	xx = np.arange(vol_size[1])#192
+	yy = np.arange(vol_size[0])#160
+	zz = np.arange(vol_size[2])#224
+	grid = np.rollaxis(np.array(np.meshgrid(xx, yy, zz)), 0, 4)#(160,192,224,3)
 
 	X_vol, X_seg = datagenerators.load_example_by_name('../data/test_vol.npz', '../data/test_seg.npz')
 
@@ -61,7 +61,7 @@ def test(model_name, iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,
 
 	# Warp segments with flow
 	flow = pred[1][0, :, :, :, :]
-	sample = flow+grid
+	sample = flow+grid#()
 	sample = np.stack((sample[:, :, :, 1], sample[:, :, :, 0], sample[:, :, :, 2]), 3)
 	warp_seg = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], sample, method='nearest', bounds_error=False, fill_value=0)
 
