@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# @Time    : ${DATE} ${TIME}
-# @Author  : Aries
+# @Time    : ${2/20/2019} ${TIME}
+# @Author  : Yuqing Shou
 # @Site    : ${SITE}
-# @File    : ${NAME}.py
-# @Software: ${PRODUCT_NAME}
+# @File    : ${rigid_train}.py
+# @Software: ${Pycharm}
 
 # python imports
 import os
@@ -33,7 +33,7 @@ vol_size = (160, 192, 224)
 # for the CVPR paper, we have data arranged in train/validate/test folders
 # inside each folder is a /vols/ and a /asegs/ folder with the volumes
 # and segmentations
-base_data_dir = '/your/path/here'
+base_data_dir = '/home/ys895/resize256/resize256-crop_x32/'
 train_vol_names = glob.glob(base_data_dir + 'train/vols/*.npz')
 random.shuffle(train_vol_names)  # shuffle volume list
 
@@ -77,7 +77,7 @@ def train(model_dir, gpu_id, lr, n_iterations, alpha, image_sigma, model_save_it
     # in the experiments, we use image_2 as atlas
     with tf.device(gpu):
         # miccai 2018 used xy indexing.
-        model = networks.miccai2018_net(vol_size, nf_enc, nf_dec, use_miccai_int=True, indexing='xy')
+        model = networks.rigid_net(vol_size, nf_enc, nf_dec, use_miccai_int=True, indexing='xy')
 
         # compile
         model_losses = [losses.kl_l2loss(image_sigma), losses.kl_loss(alpha)]
