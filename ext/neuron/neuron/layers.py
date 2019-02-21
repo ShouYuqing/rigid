@@ -160,7 +160,7 @@ class SpatialTransformer(Layer):
             trf_lst = [trf_split[1], trf_split[0], *trf_split[2:]]
             trf = tf.concat(trf_lst, -1)
 
-        # map transform across batch
+        # map transform across batch, use the function _single_transform() to transform input data using "trf"
         return tf.map_fn(self._single_transform, [inputs[0], trf], dtype=tf.float32)
 
     def _single_aff_to_shift(self, trf, volshape):
