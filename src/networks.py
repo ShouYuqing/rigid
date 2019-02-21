@@ -119,6 +119,7 @@ def rigid_net(vol_size, enc_nf, dec_nf):
     [src, tgt] = unet_model.inputs
     x_out = unet_model.outputs[-1]
     # affine transform matrix
+    # how to output a flow with the affine transform matrix????
     flow =
     # spatial transform
     y = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([src, flow])
