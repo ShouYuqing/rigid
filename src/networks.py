@@ -108,7 +108,8 @@ def unet(vol_size, enc_nf, dec_nf, full_size=True):
 
 def rigid_net(vol_size, enc_nf, dec_nf):
     """
-    architecture for rigid registration
+    architecture for rigid registration.
+    rigid registration: apply the matrix or flow onto the input images
     :param vol_size: volume size
     :param enc_nf: list of encoder
     :param dec_nf: list of decoder

@@ -112,6 +112,7 @@ class SpatialTransformer(Layer):
         # it's a 1D Tensor [dense transforms need to be at least ndims + 1]
         # it's a 2D Tensor and shape == [N+1, N+1]. 
         #   [dense with N=1, which is the only one that could have a transform shape of 2, would be of size Mx1]
+        # determine the value of is_affine, this parameter will be used in the future to determine to transfer the affine_matrix into shift flow.
         self.is_affine = len(trf_shape) == 1 or \
                          (len(trf_shape) == 2 and all([f == (self.ndims+1) for f in trf_shape]))
 
