@@ -194,6 +194,7 @@ def affine_to_shift(affine_matrix, volshape, shift_center=True, indexing='ij'):
 
 def transform(vol, loc_shift, interp_method='linear', indexing='ij'):
     """
+    N-dimension transform
     transform (interpolation N-D volumes (features) given shifts at each location in tensorflow
 
     Essentially interpolates volume vol at locations determined by loc_shift. 

@@ -118,8 +118,10 @@ def rigid_net(vol_size, enc_nf, dec_nf):
     unet_model = unet_core(vol_size, enc_nf, dec_nf, full_size = False)
     [src, tgt] = unet_model.inputs
     x_out = unet_model.outputs[-1]
-
-
+    # affine transform matrix
+    flow =
+    # spatial transform
+    y = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([src, flow])
 
 def miccai2018_net(vol_size, enc_nf, dec_nf, use_miccai_int=True, int_steps=7, indexing='xy'):
     """
