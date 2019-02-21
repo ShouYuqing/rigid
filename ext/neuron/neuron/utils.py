@@ -129,6 +129,7 @@ def interpn(vol, loc, interp_method='linear'):
 
 def affine_to_shift(affine_matrix, volshape, shift_center=True, indexing='ij'):
     """
+    affine matrix --->>> shift flow
     transform an affine matrix to a dense location shift tensor in tensorflow
 
     Algorithm:
@@ -194,7 +195,7 @@ def affine_to_shift(affine_matrix, volshape, shift_center=True, indexing='ij'):
 
 def transform(vol, loc_shift, interp_method='linear', indexing='ij'):
     """
-    N-dimension transform
+    N-dimension transform(interpolation using shifts at each location)
     transform (interpolation N-D volumes (features) given shifts at each location in tensorflow
 
     Essentially interpolates volume vol at locations determined by loc_shift. 
