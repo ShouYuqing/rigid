@@ -53,6 +53,7 @@ class VecInt(Layer):
 
 class SpatialTransformer(Layer):
     """
+    N-Dimension spatial transform
     N-D Spatial Transformer Tensorflow / Keras Layer
 
     The Layer can handle both affine and dense transforms. 
