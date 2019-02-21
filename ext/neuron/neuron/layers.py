@@ -54,6 +54,7 @@ class VecInt(Layer):
 class SpatialTransformer(Layer):
     """
     N-Dimension spatial transform
+    the input can be: input volume + shift flow || affine matrix
     N-D Spatial Transformer Tensorflow / Keras Layer
 
     The Layer can handle both affine and dense transforms. 
@@ -94,7 +95,7 @@ class SpatialTransformer(Layer):
         input1: image.
         input2: transform Tensor
             if affine:
-                should be a N+1 x N+1 matrix
+                should be a N+1 x N+1 matrix (N is the dimension, in the 3D image case, the N is 3, so the dimension of the matrix should be 3*4 or 4*4)
                 *or* a N*N+1 tensor (which will be reshape to N x (N+1) and an identity row added)
             if not affine:
                 should be a *vol_shape x N
