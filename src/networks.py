@@ -109,7 +109,7 @@ def unet(vol_size, enc_nf, dec_nf, full_size=True):
 def rigid_net(vol_size, enc_nf, dec_nf):
     """
     architecture for rigid registration.
-    rigid registration: apply the matrix or flow onto the input images
+    rigid registration: build affine matrix to do affine transform on the images
     :param vol_size: volume size
     :param enc_nf: list of encoder
     :param dec_nf: list of decoder
@@ -126,7 +126,7 @@ def rigid_net(vol_size, enc_nf, dec_nf):
     flow2 = flow[0,:,:,:,1]
     flow3 = flow[0,:,:,:,2]
     # add convolutinal layer into the model, which outputs affine matrix.
-
+    
     # spatial transform
     y = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([src, flow])
 
