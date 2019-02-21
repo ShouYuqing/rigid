@@ -126,7 +126,7 @@ def rigid_net(vol_size, enc_nf, dec_nf):
     flow2 = flow[0,:,:,:,1]
     flow3 = flow[0,:,:,:,2]
     # add convolutinal layer into the model, which outputs affine matrix.
-    
+
     # spatial transform
     y = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([src, flow])
 
