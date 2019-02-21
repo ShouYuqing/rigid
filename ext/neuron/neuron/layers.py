@@ -150,7 +150,7 @@ class SpatialTransformer(Layer):
         #         raise Exception('Shift shape should match vol shape. '
         #                         'Got: ' + str(trf.shape[1:-1]) + ' and ' + str(vol.shape[1:-1]))
 
-        # go from affine
+        # go from affine, if it needs to transfer from affine to the shift then use the function _single_aff_to_shift()
         if self.is_affine:
             trf = tf.map_fn(lambda x: self._single_aff_to_shift(x, vol.shape[1:-1]), trf, dtype=tf.float32)
 
