@@ -77,7 +77,7 @@ def train(model_dir, gpu_id, lr, n_iterations, alpha, image_sigma, model_save_it
     # in the experiments, we use image_2 as atlas
     with tf.device(gpu):
         # miccai 2018 used xy indexing.
-        model = networks.rigid_net(vol_size, nf_enc, nf_dec, use_miccai_int=True, indexing='xy')
+        model = networks.rigid_net(vol_size, nf_enc, nf_dec)
 
         # compile
         model_losses = [losses.kl_l2loss(image_sigma), losses.kl_loss(alpha)]
