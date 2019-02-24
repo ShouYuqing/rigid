@@ -125,6 +125,7 @@ def rigid_net(vol_size, enc_nf, dec_nf):
     flow1 = flow[0,:,:,:,0]#(80,91,112)
     flow1 = tf.reshape(flow1, shape = [1, flow1.get_shape()[0].value, flow1.get_shape()[1].value,
                               flow1.get_shape()[2].value,1])
+    print(flow1.shape)
     flow2 = flow[0,:,:,:,1]
     flow2 = tf.reshape(flow2, shape = [1, flow2.get_shape()[0].value, flow2.get_shape()[1].value,
                              flow2.get_shape()[2].value, 1])
