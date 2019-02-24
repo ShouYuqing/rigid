@@ -159,6 +159,8 @@ class SpatialTransformer(Layer):
 
         # prepare location shift
         if self.indexing == 'xy':  # shift the first two dimensions
+            # tf.split: split tensor
+            # tf.concat: concat tensors
             trf_split = tf.split(trf, trf.shape[-1], axis=-1)
             trf_lst = [trf_split[1], trf_split[0], *trf_split[2:]]
             trf = tf.concat(trf_lst, -1)
