@@ -132,15 +132,14 @@ def rigid_net(vol_size, enc_nf, dec_nf):
     flow3 = tf.reshape(flow1, shape = [1, flow3.get_shape()[0].value, flow3.get_shape()[1].value,
                              flow3.get_shape()[2].value, 1])
     # add convolutinal layer into the model, which outputs affine matrix.
-    affine_matrix1 = Conv3D(filters = 4, kernel_size = (80,91,112), padding = 'same',
+    affine_matrix1 = Conv3D(filters = 4, kernel_size = (1,80,91,112), padding = 'same',
                                          kernel_initializer = RandomNormal(mean=0.0, stddev=1e-5), name = 'flow1')(flow1)
     print(affine_matrix1.shape)
-    affine_matrix2 = Conv3D(filters = 4, kernel_size = (80,91,112), padding = 'same',
+    affine_matrix2 = Conv3D(filters = 4, kernel_size = (1,80,91,112), padding = 'same',
                                          kernel_initializer = RandomNormal(mean=0.0, stddev=1e-5), name = 'flow2')(flow2)
-    affine_matrix3 = Conv3D(filters = 4, kernel_size = (80,91,112), padding = 'same',
+    affine_matrix3 = Conv3D(filters = 4, kernel_size = (1,80,91,112), padding = 'same',
                                          kernel_initializer = RandomNormal(mean=0.0, stddev=1e-5), name = 'flow3')(flow3)
     affine_matrix = [affine_matrix1, affine_matrix2, affine_matrix3]
-    print(affine_matrix.shape)
     # spatial transform
     y = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([src, affine_matrix])
     model = Model(inputs=[src, tgt], outputs=[y, flow])
