@@ -416,6 +416,15 @@ def flatten(v):
     return tf.reshape(v, [-1])
 
 
+def my_flatten(v):
+    """
+    flatten Tensor v in a different direction
+    :param v: Tensor to be flattened
+    :return: flat Tensor
+    """
+    return tf.reshape([-1], v)
+
+
 def gaussian_kernel(sigma, windowsize=None):
     """
     sigma will be a number of a list of numbers.

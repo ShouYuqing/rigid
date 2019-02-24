@@ -142,23 +142,22 @@ def rigid_net(vol_size, enc_nf, dec_nf):
     # add convolutinal layer into the model, which outputs affine matrix.
     affine_matrix1 = Conv3D(filters = 4, kernel_size = (80,96,112), padding = 'valid',
                                          kernel_initializer = RandomNormal(mean=0.0, stddev=1e-5), name = 'flow1')(flow1)
-    affine_matrix1 = Lambda(nrn_utils.flatten)(affine_matrix1)
+    affine_matrix1 = Lambda(nrn_utils.my_flatten)(affine_matrix1)
     #affine_matrix1 = tf.reshape(affine_matrix1, shape = [1,affine_matrix1.get_shape()[4].value])
     print("affine_matrix1's shape is: "+ str(affine_matrix1.shape))
 
     affine_matrix2 = Conv3D(filters = 4, kernel_size = (80,96,112), padding = 'valid',
                                          kernel_initializer = RandomNormal(mean=0.0, stddev=1e-5), name = 'flow2')(flow2)
     #affine_matrix2 = tf.reshape(affine_matrix2, shape=[1, affine_matrix2.get_shape()[4].value])
-    affine_matrix2 = Lambda(nrn_utils.flatten)(affine_matrix2)
+    affine_matrix2 = Lambda(nrn_utils.my_flatten)(affine_matrix2)
     affine_matrix3 = Conv3D(filters = 4, kernel_size = (80,96,112), padding = 'valid',
                                          kernel_initializer = RandomNormal(mean=0.0, stddev=1e-5), name = 'flow3')(flow3)
     #affine_matrix3 = tf.reshape(affine_matrix3, shape=[1, affine_matrix3.get_shape()[4].value])
-    affine_matrix3 = Lambda(nrn_utils.flatten)(affine_matrix3)
+    affine_matrix3 = Lambda(nrn_utils.my_flatten)(affine_matrix3)
     #affine_matrix = Lambda(my_concat)(affine_matrix1, affine_matrix2, affine_matrix3)
     affine_matrix = concatenate([affine_matrix1, affine_matrix2])
     affine_matrix = concatenate([affine_matrix, affine_matrix3])
     print("affine_matrix's shape is :"+str(affine_matrix.shape))
-    affine_matrix = Reshape((1,12))(affine_matrix)
     #affine_matrix = tf.concat([affine_matrix1, affine_matrix2, affine_matrix3], axis = 0)
     #affine_matrix = Flatten()(affine_matrix)
     # spatial transform
