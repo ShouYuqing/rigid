@@ -147,7 +147,7 @@ def rigid_net(vol_size, enc_nf, dec_nf):
     affine_matrix3 = tf.reshape(affine_matrix3, shape=[1, affine_matrix3.get_shape()[4].value])
 
     affine_matrix = tf.concat([affine_matrix1, affine_matrix2, affine_matrix3], axis = 0)
-    affine_matrix = tf.reshape(affine_matrix, [1, Dimension])
+    affine_matrix = Lambda(nrn_utils.flatten)(affine_matrix)
     # spatial transform
     y = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([src, affine_matrix])
     model = Model(inputs=[src, tgt], outputs=[y, flow])
