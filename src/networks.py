@@ -125,6 +125,7 @@ def rigid_net(vol_size, enc_nf, dec_nf):
                   kernel_initializer=RandomNormal(mean=0.0, stddev=1e-5), name='flow')(x_out)
     flow1 = flow[0,:,:,:,0]#(80,96,112)
     flow1 = Lambda(my_reshape)(flow1)
+    print("flow1's shape is: "+ str(flow1.shape))
     #flow1 = tf.reshape(flow1, shape = [1, flow1.get_shape()[0].value, flow1.get_shape()[1].value,
     #                          flow1.get_shape()[2].value,1])
 
