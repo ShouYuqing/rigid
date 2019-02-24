@@ -13,7 +13,7 @@ import sys
 import numpy as np
 import keras.backend as K
 from keras.models import Model
-from keras.layers import Conv3D, Activation, Input, UpSampling3D, concatenate
+from keras.layers import Conv3D, Activation, Input, UpSampling3D, concatenate, Flatten
 from keras.layers import LeakyReLU, Reshape, Lambda
 from keras.initializers import RandomNormal
 import keras.initializers
@@ -147,7 +147,7 @@ def rigid_net(vol_size, enc_nf, dec_nf):
     affine_matrix3 = tf.reshape(affine_matrix3, shape=[1, affine_matrix3.get_shape()[4].value])
 
     affine_matrix = tf.concat([affine_matrix1, affine_matrix2, affine_matrix3], axis = 0)
-    affine_matrix = Lambda(nrn_utils.flatten)(affine_matrix)
+    affine_matrix = Flatten(affine_matrix)
     # spatial transform
     y = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([src, affine_matrix])
     model = Model(inputs=[src, tgt], outputs=[y, flow])
