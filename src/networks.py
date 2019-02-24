@@ -122,18 +122,19 @@ def rigid_net(vol_size, enc_nf, dec_nf):
     # build full connected layer into the model, output the ND x ND+1 affine matrix
     flow = Conv3D(3, kernel_size=3, padding='same',
                   kernel_initializer=RandomNormal(mean=0.0, stddev=1e-5), name='flow')(x_out)
-    flow1 = flow[0,:,:,:,0]#(160,192,224)
+    flow1 = flow[0,:,:,:,0]#(80,91,112)
+    print(x_out.shape)
     print(flow.shape)
     print(flow1.shape)
     flow2 = flow[0,:,:,:,1]
     flow3 = flow[0,:,:,:,2]
     # add convolutinal layer into the model, which outputs affine matrix.
-    affine_matrix1 = keras.layers.Conv3D(filters = 4, kernel_size = (160,192,224), padding='same',
+    affine_matrix1 = keras.layers.Conv3D(filters = 4, kernel_size = (80,91,112), padding='same',
                                      kernel_initializer=RandomNormal(mean=0.0, stddev=1e-5), name = 'flow1')(flow1)
     print(affine_matrix1.shape)
-    affine_matrix2 = keras.layers.Conv3D(filters=4, kernel_size=(160, 192, 224), padding='same',
+    affine_matrix2 = keras.layers.Conv3D(filters=4, kernel_size=(80,91,112), padding='same',
                                          kernel_initializer=RandomNormal(mean=0.0, stddev=1e-5), name = 'flow2')(flow2)
-    affine_matrix3 = keras.layers.Conv3D(filters=4, kernel_size=(160, 192, 224), padding='same',
+    affine_matrix3 = keras.layers.Conv3D(filters=4, kernel_size=(80,91,112), padding='same',
                                          kernel_initializer=RandomNormal(mean=0.0, stddev=1e-5), name = 'flow3')(flow3)
     affine_matrix = [affine_matrix1, affine_matrix2, affine_matrix3]
     print(affine_matrix.shape)
