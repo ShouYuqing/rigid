@@ -123,6 +123,7 @@ def rigid_net(vol_size, enc_nf, dec_nf):
     flow = Conv3D(3, kernel_size=3, padding='same',
                   kernel_initializer=RandomNormal(mean=0.0, stddev=1e-5), name='flow')(x_out)
     flow1 = flow[0,:,:,:,0]#(160,192,224)
+    print(flow.shape)
     print(flow1.shape)
     flow2 = flow[0,:,:,:,1]
     flow3 = flow[0,:,:,:,2]
