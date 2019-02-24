@@ -157,7 +157,6 @@ def rigid_net(vol_size, enc_nf, dec_nf):
     affine_matrix = concatenate([affine_matrix1, affine_matrix2])
     affine_matrix = concatenate([affine_matrix, affine_matrix3])
     print("affine_matrix's shape is :"+str(affine_matrix.shape))
-    affine_matrix = Reshape(affine_matrix)
     #affine_matrix = tf.concat([affine_matrix1, affine_matrix2, affine_matrix3], axis = 0)
     #affine_matrix = Flatten()(affine_matrix)
     # spatial transform
