@@ -123,18 +123,21 @@ def rigid_net(vol_size, enc_nf, dec_nf):
     # build full connected layer into the model, output the ND x ND+1 affine matrix
     flow = Conv3D(3, kernel_size=3, padding='same',
                   kernel_initializer=RandomNormal(mean=0.0, stddev=1e-5), name='flow')(x_out)
-    flow1 = flow[0,:,:,:,0]#(80,96,112)
+    flow1 = Lambda(reduce_dim1)(flow)
+    #flow1 = flow[0,:,:,:,0]#(80,96,112)
     flow1 = Lambda(my_reshape)(flow1)
     print("flow1's shape is: "+ str(flow1.shape))
     #flow1 = tf.reshape(flow1, shape = [1, flow1.get_shape()[0].value, flow1.get_shape()[1].value,
     #                          flow1.get_shape()[2].value,1])
 
-    flow2 = flow[0,:,:,:,1]
+    flow2 = Lambda(reduce_dim2)(flow)
+    #flow2 = flow[0,:,:,:,1]
     flow2 = Lambda(my_reshape)(flow2)
     #flow2 = tf.reshape(flow2, shape = [1, flow2.get_shape()[0].value, flow2.get_shape()[1].value,
     #                         flow2.get_shape()[2].value, 1])
 
-    flow3 = flow[0,:,:,:,2]
+    flow3 = Lambda(reduce_dim3)(flow)
+    #flow3 = flow[0,:,:,:,2]
     flow3 = Lambda(my_reshape)(flow3)
     #flow3 = tf.reshape(flow1, shape = [1, flow3.get_shape()[0].value, flow3.get_shape()[1].value,
     #                         flow3.get_shape()[2].value, 1])
@@ -159,7 +162,8 @@ def rigid_net(vol_size, enc_nf, dec_nf):
     #affine_matrix = Lambda(my_concat)(affine_matrix1, affine_matrix2, affine_matrix3)
     affine_matrix = concatenate([affine_matrix1, affine_matrix2])
     affine_matrix = concatenate([affine_matrix, affine_matrix3])
-    affine_matrix = affine_matrix[0,:,:]
+    #affine_matrix = affine_matrix[0,:,:]
+    affine_matrix = Lambda(reduce_dim4)(affine_matrix)
     print("affine_matrix's shape is :"+str(affine_matrix.shape))
     #affine_matrix = tf.concat([affine_matrix1, affine_matrix2, affine_matrix3], axis = 0)
     #affine_matrix = Flatten()(affine_matrix)
@@ -318,3 +322,35 @@ def my_concat(affine_matrix1, affine_matrix2, affine_matrix3):
     affine_matrix = tf.concat([affine_matrix1, affine_matrix2, affine_matrix3], axis=0)
     return affine_matrix
 
+def reduce_dim1(flow):
+    """
+    reduce the dimension of the flow
+    :param flow:
+    :return:
+    """
+    return flow[0, :, :, :, 0]
+
+def reduce_dim2(flow):
+    """
+    reduce the dimension of the flow
+    :param flow:
+    :return:
+    """
+    return flow[0, :, :, :, 1]
+
+def reduce_dim3(flow):
+    """
+    reduce the dimension of the flow
+    :param flow:
+    :return:
+    """
+    return flow[0, :, :, :, 2]
+
+
+def reduce_dim4(flow):
+    """
+    reduce the dimension of the flow
+    :param flow:
+    :return:
+    """
+    return flow[0,:,:]
