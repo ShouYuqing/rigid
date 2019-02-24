@@ -127,14 +127,16 @@ def rigid_net(vol_size, enc_nf, dec_nf):
     flow3 = flow[0,:,:,:,2]
     # add convolutinal layer into the model, which outputs affine matrix.
     affine_matrix1 = keras.layers.Conv3D(filters = 4, kernel_size = (160,192,224), padding='same',
-                                     kernel_initializer=RandomNormal(mean=0.0, stddev=1e-5))(flow1)
+                                     kernel_initializer=RandomNormal(mean=0.0, stddev=1e-5), name = 'flow1')(flow1)
     affine_matrix2 = keras.layers.Conv3D(filters=4, kernel_size=(160, 192, 224), padding='same',
-                                         kernel_initializer=RandomNormal(mean=0.0, stddev=1e-5))(flow2)
+                                         kernel_initializer=RandomNormal(mean=0.0, stddev=1e-5), name = 'flow2')(flow2)
     affine_matrix3 = keras.layers.Conv3D(filters=4, kernel_size=(160, 192, 224), padding='same',
-                                         kernel_initializer=RandomNormal(mean=0.0, stddev=1e-5))(flow3)
+                                         kernel_initializer=RandomNormal(mean=0.0, stddev=1e-5), name = 'flow3')(flow3)
     affine_matrix = [affine_matrix1, affine_matrix2, affine_matrix3]
     # spatial transform
     y = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([src, affine_matrix])
+    model = Model(inputs=[src, tgt], outputs=[y, flow])
+    return model
 
 def miccai2018_net(vol_size, enc_nf, dec_nf, use_miccai_int=True, int_steps=7, indexing='xy'):
     """
