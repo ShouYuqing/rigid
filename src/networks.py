@@ -123,13 +123,13 @@ def rigid_net(vol_size, enc_nf, dec_nf):
     flow = Conv3D(3, kernel_size=3, padding='same',
                   kernel_initializer=RandomNormal(mean=0.0, stddev=1e-5), name='flow')(x_out)
     flow1 = flow[0,:,:,:,0]#(80,91,112)
-    tf.reshape(flow1, shape = [1, flow1.get_shape()[0].value, flow1.get_shape()[1].value,
+    flow1 = tf.reshape(flow1, shape = [1, flow1.get_shape()[0].value, flow1.get_shape()[1].value,
                               flow1.get_shape()[2].value,1])
     flow2 = flow[0,:,:,:,1]
-    tf.reshape(flow2, shape = [1, flow2.get_shape()[0].value, flow2.get_shape()[1].value,
+    flow2 = tf.reshape(flow2, shape = [1, flow2.get_shape()[0].value, flow2.get_shape()[1].value,
                              flow2.get_shape()[2].value, 1])
     flow3 = flow[0,:,:,:,2]
-    tf.reshape(flow1, shape = [1, flow3.get_shape()[0].value, flow3.get_shape()[1].value,
+    flow3 = tf.reshape(flow1, shape = [1, flow3.get_shape()[0].value, flow3.get_shape()[1].value,
                              flow3.get_shape()[2].value, 1])
     # add convolutinal layer into the model, which outputs affine matrix.
     affine_matrix1 = Conv3D(filters = 4, kernel_size = (80,91,112), padding = 'same',
