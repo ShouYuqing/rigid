@@ -124,29 +124,34 @@ def rigid_net(vol_size, enc_nf, dec_nf):
     flow = Conv3D(3, kernel_size=3, padding='same',
                   kernel_initializer=RandomNormal(mean=0.0, stddev=1e-5), name='flow')(x_out)
     flow1 = flow[0,:,:,:,0]#(80,96,112)
-    flow1 = tf.reshape(flow1, shape = [1, flow1.get_shape()[0].value, flow1.get_shape()[1].value,
-                              flow1.get_shape()[2].value,1])
+    #flow1 = tf.reshape(flow1, shape = [1, flow1.get_shape()[0].value, flow1.get_shape()[1].value,
+    #                          flow1.get_shape()[2].value,1])
+    flow1 = Lambda(my_reshape)(flow1)
     flow2 = flow[0,:,:,:,1]
-    flow2 = tf.reshape(flow2, shape = [1, flow2.get_shape()[0].value, flow2.get_shape()[1].value,
-                             flow2.get_shape()[2].value, 1])
+    #flow2 = tf.reshape(flow2, shape = [1, flow2.get_shape()[0].value, flow2.get_shape()[1].value,
+    #                         flow2.get_shape()[2].value, 1])
+    flow2 = Lambda(my_reshape)(flow2)
     flow3 = flow[0,:,:,:,2]
-    flow3 = tf.reshape(flow1, shape = [1, flow3.get_shape()[0].value, flow3.get_shape()[1].value,
-                             flow3.get_shape()[2].value, 1])
+    #flow3 = tf.reshape(flow1, shape = [1, flow3.get_shape()[0].value, flow3.get_shape()[1].value,
+    #                         flow3.get_shape()[2].value, 1])
+    flow3 = Lambda(my_reshape)(flow3)
     # add convolutinal layer into the model, which outputs affine matrix.
     affine_matrix1 = Conv3D(filters = 4, kernel_size = (80,96,112), padding = 'valid',
                                          kernel_initializer = RandomNormal(mean=0.0, stddev=1e-5), name = 'flow1')(flow1)
-    affine_matrix1 = tf.reshape(affine_matrix1, shape = [1,affine_matrix1.get_shape()[4].value])
+    affine_matrix1 = Flatten(affine_matrix1)
+    #affine_matrix1 = tf.reshape(affine_matrix1, shape = [1,affine_matrix1.get_shape()[4].value])
     print(affine_matrix1.shape)
 
     affine_matrix2 = Conv3D(filters = 4, kernel_size = (80,96,112), padding = 'valid',
                                          kernel_initializer = RandomNormal(mean=0.0, stddev=1e-5), name = 'flow2')(flow2)
-    affine_matrix2 = tf.reshape(affine_matrix2, shape=[1, affine_matrix2.get_shape()[4].value])
-
+    #affine_matrix2 = tf.reshape(affine_matrix2, shape=[1, affine_matrix2.get_shape()[4].value])
+    affine_matrix2 = Flatten(affine_matrix2)
     affine_matrix3 = Conv3D(filters = 4, kernel_size = (80,96,112), padding = 'valid',
                                          kernel_initializer = RandomNormal(mean=0.0, stddev=1e-5), name = 'flow3')(flow3)
-    affine_matrix3 = tf.reshape(affine_matrix3, shape=[1, affine_matrix3.get_shape()[4].value])
-
-    affine_matrix = tf.concat([affine_matrix1, affine_matrix2, affine_matrix3], axis = 0)
+    #affine_matrix3 = tf.reshape(affine_matrix3, shape=[1, affine_matrix3.get_shape()[4].value])
+    affine_matrix3 = Flatten(affine_matrix3)
+    affine_matrix = Lambda(my_concat)(affine_matrix1, affine_matrix2, affine_matrix3)
+    #affine_matrix = tf.concat([affine_matrix1, affine_matrix2, affine_matrix3], axis = 0)
     affine_matrix = Flatten(affine_matrix)
     # spatial transform
     y = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([src, affine_matrix])
@@ -282,3 +287,23 @@ def interp_upsampling(V):
 
     return V
 
+def my_reshape(flow1):
+    """
+    adjust the dimension of the input flow
+    :param flow1: input flow
+    :return: output flow
+    """
+    flow1 = tf.reshape(flow1, shape=[1, flow1.get_shape()[0].value, flow1.get_shape()[1].value,
+                                     flow1.get_shape()[2].value, 1])
+    return flow1
+
+def my_concat(affine_matrix1, affine_matrix2, affine_matrix3):
+    """
+    concate three affine_matrix
+    :param affine_matrix1:
+    :param affine_matrix2:
+    :param affine_matrix3:
+    :return:
+    """
+    affine_matrix = tf.concat([affine_matrix1, affine_matrix2, affine_matrix3], axis=0)
+    return affine_matrix
