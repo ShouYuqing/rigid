@@ -157,7 +157,7 @@ def rigid_net(vol_size, enc_nf, dec_nf):
     affine_matrix = concatenate([affine_matrix1, affine_matrix2])
     affine_matrix = concatenate([affine_matrix, affine_matrix3])
     #affine_matrix = tf.concat([affine_matrix1, affine_matrix2, affine_matrix3], axis = 0)
-    affine_matrix = Flatten([affine_matrix])
+    affine_matrix = Flatten()(affine_matrix)
     # spatial transform
     y = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([src, affine_matrix])
     model = Model(inputs=[src, tgt], outputs=[y, flow])
