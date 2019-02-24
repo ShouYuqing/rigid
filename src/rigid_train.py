@@ -140,7 +140,7 @@ if __name__ == "__main__":
     parser.add_argument("--gpu", type=int, default=0,
                         dest="gpu_id", help="gpu id number")
     parser.add_argument("--lr", type=float,
-                        dest="lr", default=1e-4, help="learning rate")
+                        dest="lr", default=1e-2, help="learning rate")
     parser.add_argument("--iters", type=int,
                         dest="n_iterations", default=150000,
                         help="number of iterations")

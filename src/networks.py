@@ -115,7 +115,6 @@ def rigid_net(vol_size, enc_nf, dec_nf):
     :param dec_nf: list of decoder
     :return: model
     """
-    Dimension = 4*3
     unet_model = unet_core(vol_size, enc_nf, dec_nf, full_size = False)
     [src, tgt] = unet_model.inputs
     x_out = unet_model.outputs[-1]
@@ -123,50 +122,36 @@ def rigid_net(vol_size, enc_nf, dec_nf):
     # build full connected layer into the model, output the ND x ND+1 affine matrix
     flow = Conv3D(3, kernel_size=3, padding='same',
                   kernel_initializer=RandomNormal(mean=0.0, stddev=1e-5), name='flow')(x_out)
+
     flow1 = Lambda(reduce_dim1)(flow)
-    #flow1 = flow[0,:,:,:,0]#(80,96,112)
     flow1 = Lambda(my_reshape)(flow1)
     print("flow1's shape is: "+ str(flow1.shape))
-    #flow1 = tf.reshape(flow1, shape = [1, flow1.get_shape()[0].value, flow1.get_shape()[1].value,
-    #                          flow1.get_shape()[2].value,1])
 
     flow2 = Lambda(reduce_dim2)(flow)
-    #flow2 = flow[0,:,:,:,1]
     flow2 = Lambda(my_reshape)(flow2)
-    #flow2 = tf.reshape(flow2, shape = [1, flow2.get_shape()[0].value, flow2.get_shape()[1].value,
-    #                         flow2.get_shape()[2].value, 1])
 
     flow3 = Lambda(reduce_dim3)(flow)
-    #flow3 = flow[0,:,:,:,2]
     flow3 = Lambda(my_reshape)(flow3)
-    #flow3 = tf.reshape(flow1, shape = [1, flow3.get_shape()[0].value, flow3.get_shape()[1].value,
-    #                         flow3.get_shape()[2].value, 1])
 
     # add convolutinal layer into the model, which outputs affine matrix.
     affine_matrix1 = Conv3D(filters = 4, kernel_size = (80,96,112), padding = 'valid',
                                          kernel_initializer = RandomNormal(mean=0.0, stddev=1e-5), name = 'flow1')(flow1)
     affine_matrix1 = Reshape((1,4))(affine_matrix1)
-    #affine_matrix1 = Lambda(nrn_utils.flatten)(affine_matrix1)
-    #affine_matrix1 = tf.reshape(affine_matrix1, shape = [1,affine_matrix1.get_shape()[4].value])
+
     print("affine_matrix1's shape is: "+ str(affine_matrix1.shape))
     affine_matrix2 = Conv3D(filters = 4, kernel_size = (80,96,112), padding = 'valid',
                                          kernel_initializer = RandomNormal(mean=0.0, stddev=1e-5), name = 'flow2')(flow2)
     affine_matrix2 = Reshape((1,4))(affine_matrix2)
-    #affine_matrix2 = tf.reshape(affine_matrix2, shape=[1, affine_matrix2.get_shape()[4].value])
-    #affine_matrix2 = Lambda(nrn_utils.flatten)(affine_matrix2)
+
     affine_matrix3 = Conv3D(filters = 4, kernel_size = (80,96,112), padding = 'valid',
                                          kernel_initializer = RandomNormal(mean=0.0, stddev=1e-5), name = 'flow3')(flow3)
     affine_matrix3 = Reshape((1,4))(affine_matrix3)
-    #affine_matrix3 = tf.reshape(affine_matrix3, shape=[1, affine_matrix3.get_shape()[4].value])
-    #affine_matrix3 = Lambda(nrn_utils.flatten)(affine_matrix3)
-    #affine_matrix = Lambda(my_concat)(affine_matrix1, affine_matrix2, affine_matrix3)
+
     affine_matrix = concatenate([affine_matrix1, affine_matrix2])
     affine_matrix = concatenate([affine_matrix, affine_matrix3])
-    #affine_matrix = affine_matrix[0,:,:]
+
     affine_matrix = Lambda(reduce_dim4)(affine_matrix)
     print("affine_matrix's shape is :"+str(affine_matrix.shape))
-    #affine_matrix = tf.concat([affine_matrix1, affine_matrix2, affine_matrix3], axis = 0)
-    #affine_matrix = Flatten()(affine_matrix)
     # spatial transform
     y = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([src, affine_matrix])
     model = Model(inputs=[src, tgt], outputs=[y, flow])
@@ -311,16 +296,6 @@ def my_reshape(flow1):
                                      flow1.get_shape()[2].value, 1])
     return flow1
 
-def my_concat(affine_matrix1, affine_matrix2, affine_matrix3):
-    """
-    concate three affine_matrix into a single affine_matrix
-    :param affine_matrix1:
-    :param affine_matrix2:
-    :param affine_matrix3:
-    :return: concated matrix
-    """
-    affine_matrix = tf.concat([affine_matrix1, affine_matrix2, affine_matrix3], axis=0)
-    return affine_matrix
 
 def reduce_dim1(flow):
     """
