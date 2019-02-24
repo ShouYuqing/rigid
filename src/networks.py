@@ -115,6 +115,7 @@ def rigid_net(vol_size, enc_nf, dec_nf):
     :param dec_nf: list of decoder
     :return: model
     """
+    Dimension = 4*3
     unet_model = unet_core(vol_size, enc_nf, dec_nf, full_size = False)
     [src, tgt] = unet_model.inputs
     x_out = unet_model.outputs[-1]
@@ -144,8 +145,9 @@ def rigid_net(vol_size, enc_nf, dec_nf):
     affine_matrix3 = Conv3D(filters = 4, kernel_size = (80,96,112), padding = 'valid',
                                          kernel_initializer = RandomNormal(mean=0.0, stddev=1e-5), name = 'flow3')(flow3)
     affine_matrix3 = tf.reshape(affine_matrix3, shape=[1, affine_matrix3.get_shape()[4].value])
-    
+
     affine_matrix = tf.concat([affine_matrix1, affine_matrix2, affine_matrix3], axis = 0)
+    affine_matrix = tf.reshape(affine_matrix, [Dimension])
     # spatial transform
     y = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([src, affine_matrix])
     model = Model(inputs=[src, tgt], outputs=[y, flow])
