@@ -318,6 +318,3 @@ def my_concat(affine_matrix1, affine_matrix2, affine_matrix3):
     affine_matrix = tf.concat([affine_matrix1, affine_matrix2, affine_matrix3], axis=0)
     return affine_matrix
 
-def reduce_dim(Tensor)
-
-    return Tensor[]
