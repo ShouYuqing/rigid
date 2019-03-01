@@ -106,6 +106,10 @@ def unet(vol_size, enc_nf, dec_nf, full_size=True):
     model = Model(inputs=[src, tgt], outputs=[y, flow])
     return model
 
+def rigid_function(x, y, z, vol_size):
+    
+
+
 def rigid_net(vol_size, enc_nf, dec_nf):
     """
     architecture for rigid registration.
