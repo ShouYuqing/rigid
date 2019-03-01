@@ -107,7 +107,14 @@ def unet(vol_size, enc_nf, dec_nf, full_size=True):
     return model
 
 def rigid_function(x, y, z, vol_size):
-    
+    """
+    rigid_function that outputs the affine matrix, from the x, y, z flow from the UNet
+    :param x:
+    :param y:
+    :param z:
+    :param vol_size:
+    :return:
+    """
 
 
 def rigid_net(vol_size, enc_nf, dec_nf):
