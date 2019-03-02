@@ -10,7 +10,7 @@ The code is currently in development.
 
 A 3D-spatial transformer, which is similar to the standard STN is utilized to do the registration task.
 
-Trying to solve a optimization problem, which will get an affine transform matrix for spatial transformer to do the registration.
+Trying to solve an optimization problem, which will get an affine transform matrix for spatial transformer to do the registration.
 
 
 ## Citation
