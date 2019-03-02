@@ -4,6 +4,12 @@ Self-developed code for rigid registration under the supervision of [Dr.Sabuncu]
 
 The code is currently in development.
 
+## 3D-UNet
+
+A 3D-UNet featured with unsampling and dowsampling layer is used to learn the shift flow between two different images.
+
+CNN outputs three 3D flows.
+
 ## Spatial Transformer
 
 ![image](https://github.com/ShouYuqing/Images/blob/master/2.png)
