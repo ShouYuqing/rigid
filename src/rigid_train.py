@@ -78,7 +78,7 @@ def train(model_dir, gpu_id, lr, n_iterations, alpha, image_sigma, model_save_it
     with tf.device(gpu):
         # miccai 2018 used xy indexing.
         model = networks.rigid_net(vol_size, nf_enc, nf_dec)
-        #model.load_weights(os.path.join(model_dir, str(iter_num) + '.h5'))
+        model.load_weights(os.path.join(model_dir, 'vm2_cc' + '.h5'))
 
         # compile
         model.compile(optimizer=Adam(lr=lr),
