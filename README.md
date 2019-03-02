@@ -14,7 +14,7 @@ Trying to solve an optimization problem, which will get an affine transform matr
 
 
 ## Citation
-Based on medical image process library [Voxelmorph](https://arxiv.org/abs/1809.05231/) 
+Based on medical image processing library [Voxelmorph](https://arxiv.org/abs/1809.05231/) 
 
 
 **Unsupervised Learning for Fast Probabilistic Diffeomorphic Registration**  
