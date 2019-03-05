@@ -79,7 +79,7 @@ def train(model_dir, gpu_id, lr, n_iterations, alpha, image_sigma, model_save_it
         # miccai 2018 used xy indexing.
         model = networks.rigid_net(vol_size, nf_enc, nf_dec)
         print(model.summary())
-        model.load_weights(os.path.join(model_dir, 'vm1_l2' + '.h5'), by_name=True)
+        #model.load_weights(os.path.join(model_dir, 'vm1_l2' + '.h5'), by_name=True)
 
         # compile
         model.compile(optimizer=Adam(lr=lr),
