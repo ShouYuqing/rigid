@@ -77,8 +77,8 @@ def train(model_dir, gpu_id, lr, n_iterations, alpha, image_sigma, model_save_it
     # in the experiments, we use image_2 as atlas
     with tf.device(gpu):
         # miccai 2018 used xy indexing.
-        model = networks.unet(vol_size, nf_enc, nf_dec)
-        #model = networks.rigid_net(vol_size, nf_enc, nf_dec)
+        #model = networks.unet(vol_size, nf_enc, nf_dec)
+        model = networks.rigid_net(vol_size, nf_enc, nf_dec)
         print(model.summary())
         #model.load_weights(os.path.join(model_dir, 'vm1_l2' + '.h5'), by_name=True)
 
