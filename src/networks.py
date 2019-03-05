@@ -150,15 +150,18 @@ def rigid_net(vol_size, enc_nf, dec_nf):
     affine_matrix1 = Conv3D(filters = 4, kernel_size = (80,96,112), padding = 'valid',
                                          kernel_initializer = RandomNormal(mean=0.0, stddev=1e-5), name = 'flow1')(flow1)
     affine_matrix1 = Reshape((1,4))(affine_matrix1)
+    affine_matrix1 = LeakyReLU(0.2)(affine_matrix1)
 
     print("affine_matrix1's shape is: "+ str(affine_matrix1.shape))
     affine_matrix2 = Conv3D(filters = 4, kernel_size = (80,96,112), padding = 'valid',
                                          kernel_initializer = RandomNormal(mean=0.0, stddev=1e-5), name = 'flow2')(flow2)
     affine_matrix2 = Reshape((1,4))(affine_matrix2)
+    affine_matrix2 = LeakyReLU(0.2)(affine_matrix2)
 
     affine_matrix3 = Conv3D(filters = 4, kernel_size = (80,96,112), padding = 'valid',
                                          kernel_initializer = RandomNormal(mean=0.0, stddev=1e-5), name = 'flow3')(flow3)
     affine_matrix3 = Reshape((1,4))(affine_matrix3)
+    affine_matrix3 = LeakyReLU(0.2)(affine_matrix3)
 
     affine_matrix = concatenate([affine_matrix1, affine_matrix2])
     affine_matrix = concatenate([affine_matrix, affine_matrix3])
