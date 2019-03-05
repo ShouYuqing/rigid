@@ -134,6 +134,7 @@ def rigid_net(vol_size, enc_nf, dec_nf):
     # build full connected layer into the model, output the ND x ND+1 affine matrix
     flow = Conv3D(3, kernel_size=3, padding='same',
                   kernel_initializer=RandomNormal(mean=0.0, stddev=1e-5), name='flow')(x_out)
+    flow = LeakyReLU(0.2)(flow)
 
     flow1 = Lambda(reduce_dim1)(flow)
     flow1 = Lambda(my_reshape)(flow1)
