@@ -84,7 +84,7 @@ def train(model_dir, gpu_id, lr, n_iterations, alpha, image_sigma, model_save_it
         # compile
         model.compile(optimizer=Adam(lr=lr),
                       loss=[losses.cc3D(), losses.gradientLoss('l2')],
-                      loss_weights=[1.0, 0.1], metrics = [losses.cc3D(), losses.gradientLoss('l2')])
+                      loss_weights=[1.0, 0.1])
         # save first iteration
         model.save(os.path.join(model_dir, str(0) + '.h5'))
 
