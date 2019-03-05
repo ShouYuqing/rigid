@@ -167,6 +167,7 @@ def rigid_net(vol_size, enc_nf, dec_nf):
     # spatial transform
     y = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([src, affine_matrix])
     model = Model(inputs=[src, tgt], outputs=[y, flow])
+    print("the output's shape is:"+str(y.shape))
     return model
 
 def miccai2018_net(vol_size, enc_nf, dec_nf, use_miccai_int=True, int_steps=7, indexing='xy'):
