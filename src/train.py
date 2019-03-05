@@ -30,7 +30,7 @@ vol_size = (160, 192, 224)
 # for the CVPR paper, we have data arranged in train/validate/test folders
 # inside each folder is a /vols/ and a /asegs/ folder with the volumes
 # and segmentations
-base_data_dir = '/insert/your/path/here'
+base_data_dir = '/home/ys895/resize256/resize256-crop_x32/'
 train_vol_names = glob.glob(base_data_dir + 'train/vols/*.npz')
 random.shuffle(train_vol_names)  # shuffle volume list
 
