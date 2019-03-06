@@ -73,6 +73,7 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     grid_z = grid_sample(x, y, z, grid[2, :, :, :], sample_num)# (10,10,10)
 
     sample = flow + grid
+
     sample = sample[x, y, z]
     sample_x = sample[0, x, y, z]
     sample_y = sample[1, x, y, z]
@@ -121,9 +122,9 @@ def grid_sample(x, y, z, grid, sample_num):
     :return: grid after sample
     """
     sampled_grid = np.array((sample_num, sample_num, sample_num))
-    for i in arange(sample_num):
-        for j in arange(sample_num):
-            for m in arange(sample_num):
+    for i in np.arange(sample_num):
+        for j in np.arange(sample_num):
+            for m in np.arange(sample_num):
                 sampled_grid[i, j, m] = grid[x[i, j, m], y[i, j, m], z[i, j, m]]
     return sampled_grid
 
