@@ -55,7 +55,6 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     # Compute A(all about coordinate computation)
     x = np.linspace(0, 160-16, sample_num)
     x = x.astype(np.int32)
-    print(x)
     y = np.linspace(0, 190-19, sample_num)
     y = y.astype(np.int32)
     z = np.linspace(0, 220-22, sample_num)
@@ -64,13 +63,15 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     x = index[0, :, :, :]
     y = index[1, :, :, :]
     z = index[2, :, :, :]
-    print(index.shape)
 
     # Y in formula
     x_flow = np.arange(vol_size[0])
     y_flow = np.arange(vol_size[1])
     z_flow = np.arange(vol_size[2])
     grid = np.array((np.meshgrid(x_flow, y_flow, z_flow)))#original coordinate
+    print(grid[0, :, :, :])
+    print(grid[1, :, :, :])
+    print(grid[2, :, :, :])
     grid_x = grid_sample(x, y, z, grid[0, :, :, :], sample_num)
     grid_y = grid_sample(x, y, z, grid[1, :, :, :], sample_num)
     grid_z = grid_sample(x, y, z, grid[2, :, :, :], sample_num)# (10,10,10)
