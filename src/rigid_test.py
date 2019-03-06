@@ -61,7 +61,7 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     x = index[0, :, :, :]
     y = index[1, :, :, :]
     z = index[2, :, :, :]
-    print(grid.shape)
+    print(index.shape)
 
 
     # Y in formula
