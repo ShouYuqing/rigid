@@ -22,7 +22,7 @@ from medipy.metrics import dice
 import datagenerators
 
 
-def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=[32,32,32,32,32,16,16,3], model_name = "vm2.cc", sample_num = 10):
+def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=[32,32,32,32,32,16,16,3], model_name = "vm2_cc", sample_num = 10):
     gpu = '/gpu:' + str(gpu_id)
 
     # Anatomical labels we want to evaluate
