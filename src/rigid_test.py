@@ -54,12 +54,14 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
 
     # Compute A(all about coordinate computation)
     x = np.linspace(0, 160, sample_num + 1)
+    print(x)
     y = np.linspace(0, 190, sample_num + 1)
     z = np.linspace(0, 220, sample_num + 1)
     index = np.array(np.meshgrid(x, y, z))
     x = index[0, :, :, :]
     y = index[1, :, :, :]
     z = index[2, :, :, :]
+    print(grid.shape)
 
 
     # Y in formula
@@ -67,7 +69,6 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     y_flow = np.arange(vol_size[1])
     z_flow = np.arange(vol_size[2])
     grid = np.array((np.meshgrid(x_flow, y_flow, z_flow)))#original coordinate
-    print(grid.shape)
     grid_x = grid_sample(x, y, z, grid[0, x, y, z], sample_num)
     grid_y = grid_sample(x, y, z, grid[1, x, y, z], sample_num)
     grid_z = grid_sample(x, y, z, grid[2, x, y, z], sample_num)# (10,10,10)
