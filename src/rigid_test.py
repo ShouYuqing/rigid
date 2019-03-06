@@ -42,7 +42,7 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     # load weights of model
     with tf.device(gpu):
         net = networks.unet(vol_size, nf_enc, nf_dec)
-        net.load_weights('../models/' + model_name + '.h5')
+        net.load_weights('../models/' + model_name + '.h5', by_name=True)
 
     X_vol, X_seg = datagenerators.load_example_by_name('../data/test_vol.npz', '../data/test_seg.npz')
 
