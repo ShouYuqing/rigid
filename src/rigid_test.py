@@ -53,11 +53,14 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     flow = pred[1][0, :, :, :, :]
 
     # Compute A(all about coordinate computation)
-    x = np.reshape(np.linspace(0, 160, sample_num + 1), (1, sample_num + 1))
-    y = np.reshape(np.linspace(0, 190, sample_num + 1), (1, sample_num + 1))
-    z = np.reshape(np.linspace(0, 220, sample_num + 1), (1, sample_num + 1))#index
-    print(z)
-    #index = np.array((np.meshgrid(x, y, z)))
+    x = np.linspace(0, 160, sample_num + 1)
+    y = np.linspace(0, 190, sample_num + 1)
+    z = np.linspace(0, 220, sample_num + 1)
+    index = np.array(np.meshgrid(x, y, z))
+    x = index[0, :, :, :]
+    y = index[1, :, :, :]
+    z = index[2, :, :, :]
+
 
     # Y in formula
     x_flow = np.arange(vol_size[0])
@@ -65,9 +68,10 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     z_flow = np.arange(vol_size[2])
     print(z_flow.shape)
     grid = np.array((np.meshgrid(x_flow, y_flow, z_flow)))#original coordinate
-    grid_x = grid[0, x, y, z]
-    grid_y = grid[1, x, y, z]
-    grid_z = grid[2, x, y, z]#(10,10,10)
+
+    grid_x = grid_sample(x, y, z, grid[0, x, y, z], sample_num)
+    grid_y = grid_sample(x, y, z, grid[1, x, y, z], sample_num)
+    grid_z = grid_sample(x, y, z, grid[2, x, y, z], sample_num)# (10,10,10)
 
     sample = flow + grid
     sample = sample[x, y, z]
@@ -102,12 +106,27 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     for i in np.arange(10):
         for j in np.arange(10):
             for z in np.arange(10):
-                R[i, j, z, :, :] = np.dot(np.dot(np.linalg.inv(np.dot(np.transpose(X[i, j, z, :]), X[i, j, z, :])), X[i, j, z, :]), T)
+                R[i, j, z, :] = np.dot(np.dot(np.linalg.inv(np.dot(np.transpose(X[i, j, z, :]), X[i, j, z, :])), X[i, j, z, :]), T)
 
     # multiply R with
 
 
-
+def grid_sample(x, y, z, grid, sample_num):
+    """
+    sample the grid with x y z index grid
+    :param x: x index grid
+    :param y: y index grid
+    :param z: z index grid
+    :param grid: grid to be sampled
+    :param sample_num: sample num, then sample the grid with num*num*num
+    :return: grid after sample
+    """
+    sampled_grid = np.array(sample_num, sample_num, sample_num)
+    for i in sample_num:
+        for j in sample_num:
+            for z in sample_num:
+                sampled_grid[i, j, z] = grid[x[i, j, z], y[i, j, z], z[i, j, z]]
+    return sampled_grid
 
 
 
