@@ -134,4 +134,4 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     #print(np.mean(vals), np.std(vals))
 
 if __name__ == "__main__":
-    test(sys.argv[1], sys.argv[2], sys.argv[3])
+    test(sys.argv[1], sys.argv[2])
