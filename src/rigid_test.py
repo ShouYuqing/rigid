@@ -53,10 +53,10 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     flow = pred[1][0, :, :, :, :]
 
     # Compute A(all about coordinate computation)
-    x = np.linspace(0, 160, sample_num)
+    x = np.linspace(0, 160-16, sample_num)
     print(x)
-    y = np.linspace(0, 190, sample_num)
-    z = np.linspace(0, 220, sample_num)
+    y = np.linspace(0, 190-19, sample_num)
+    z = np.linspace(0, 220-22, sample_num)
     index = np.array(np.meshgrid(x, y, z))
     x = index[0, :, :, :]
     y = index[1, :, :, :]
@@ -124,8 +124,8 @@ def grid_sample(x, y, z, grid, sample_num):
     sampled_grid = np.array(sample_num, sample_num, sample_num)
     for i in sample_num:
         for j in sample_num:
-            for z in sample_num:
-                sampled_grid[i, j, z] = grid[x[i, j, z], y[i, j, z], z[i, j, z]]
+            for m in sample_num:
+                sampled_grid[i, j, m] = grid[x[i, j, m], y[i, j, m], z[i, j, m]]
     return sampled_grid
 
 
