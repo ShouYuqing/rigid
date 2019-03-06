@@ -54,9 +54,12 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
 
     # Compute A(all about coordinate computation)
     x = np.linspace(0, 160-16, sample_num)
+    x = x.astype(np.int32)
     print(x)
     y = np.linspace(0, 190-19, sample_num)
+    y = y.astype(np.int32)
     z = np.linspace(0, 220-22, sample_num)
+    z = z.astype(np.int32)
     index = np.array(np.meshgrid(x, y, z))
     x = index[0, :, :, :]
     y = index[1, :, :, :]
