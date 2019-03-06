@@ -53,13 +53,55 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     flow = pred[1][0, :, :, :, :]
 
     # Compute A(all about coordinate computation)
+    x = np.linspace(0, vol_size[0], sample_num + 1)
+    y = np.linspace(0, vol_size[1], sample_num + 1)
+    z = np.linspace(0, vol_size[2], sample_num + 1)#index
+    #index = np.array((np.meshgrid(x, y, z)))
+
+    # Y in formula
     x_flow = np.arange(vol_size[0])
     y_flow = np.arange(vol_size[1])
     z_flow = np.arange(vol_size[2])
-    grid = np.array((np.meshgrid(x_flow, y_flow, z_flow)))# grid: original coordinate
+    grid = np.array((np.meshgrid(x_flow, y_flow, z_flow)))#original coordinate
+    grid_x = grid[0, x, y, z]
+    grid_y = grid[1, x, y, z]
+    grid_z = grid[2, x, y, z]#(10,10,10)
 
-    # Y in formula
-    sample = flow + grid# sample: coordinate after shifting, size:3*(...), each tensor stores the coordinates for voxel
+    sample = flow + grid
+    sample = sample[x, y, z]
+    sample_x = sample[0, x, y, z]
+    sample_y = sample[1, x, y, z]
+    sample_z = sample[2, x, y, z]#(10,10,10)
+
+    sum_x = np.sum(flow[0, :, :, :])
+    sum_y = np.sum(flow[1, :, :, :])
+    sum_z = np.sum(flow[2, :, :, :])
+
+    ave_x = sum_x/(vol_size[0] * vol_size[1] * vol_size[2])
+    ave_y = sum_y/(vol_size[0] * vol_size[1] * vol_size[2])
+    ave_z = sum_z/(vol_size[0] * vol_size[1] * vol_size[2])
+
+    # formula
+    Y = np.zeros((10, 10, 10, 4))
+    X = np.zeros((10, 10, 10, 4))
+    T = np.array([ave_x, ave_y, ave_z, 1])#(4,1)
+    R = np.zeros((10, 10, 10, 4, 4))
+
+    for i in np.arange(10):
+        for j in np.arange(10):
+            for z in np.arange(10):
+                Y[i, j, z, :] = np.array([sample_x[i,j,z], sample_y[i,j,z], sample_z[i,j,z], 1])
+
+    for i in np.arange(10):
+        for j in np.arange(10):
+            for z in np.arange(10):
+                X[i, j, z, :] = np.array([grid_x[i, j, z], grid_y[i, j, z], grid_z[i, j, z], 1])
+
+    for i in np.arange(10):
+        for j in np.arange(10):
+            for z in np.arange(10):
+                R[i, j, z, :, :] = np.dot(np.dot(np.linalg.inv(np.dot(np.transpose(X[i, j, z, :]), X[i, j, z, :])), X[i, j, z, :]), T)
+
 
 
 
@@ -72,9 +114,7 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     warp_seg = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], sample, method='nearest', bounds_error=False, fill_value=0)
 
     # sample the X(add coordinates)
-    x = linspace(0, vol_size[0], sample_num + 1)
-    y = linspace(0, vol_size[1], sample_num + 1)
-    z = linspace(0, vol_size[2], sample_num + 1)  # sample-coordinate
+
 
     flow_sample = interpn((x, y, z), X_seg[0, :, :, :, 0], flow, method = 'nearest', bounds_error = False, fill_value = 0)
 
