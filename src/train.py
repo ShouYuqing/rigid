@@ -79,7 +79,7 @@ def train(model, model_dir, gpu_id, lr, n_iterations, reg_param, model_save_iter
                   loss=[losses.cc3D(), losses.gradientLoss('l2')],
                   loss_weights=[1.0, reg_param])
     #model.load_weights(os.path.join(model_dir, 'vm2_cc' + '.h5'))
-    model.load_weights(os.path.join(model_dir, 'vm2_l2' + '.h5'))
+    #model.load_weights(os.path.join(model_dir, 'vm2_l2' + '.h5'))
 
     # if you'd like to initialize the data, you can do it here:
     # model.load_weights(os.path.join(model_dir, '120000.h5'))
