@@ -53,9 +53,9 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     flow = pred[1][0, :, :, :, :]
 
     # Compute A(all about coordinate computation)
-    x = np.reshape(np.linspace(0, vol_size[0], sample_num), (1, sample_num))
-    y = np.reshape(np.linspace(0, vol_size[1], sample_num), (1, sample_num))
-    z = np.reshape(np.linspace(0, vol_size[2], sample_num), (1, sample_num))#index
+    x = np.reshape(np.linspace(0, 160, sample_num + 1), (1, sample_num + 1))
+    y = np.reshape(np.linspace(0, 190, sample_num + 1), (1, sample_num + 1))
+    z = np.reshape(np.linspace(0, 220, sample_num + 1), (1, sample_num + 1))#index
     print(z)
     #index = np.array((np.meshgrid(x, y, z)))
 
