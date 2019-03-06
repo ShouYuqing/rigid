@@ -66,9 +66,8 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     x_flow = np.arange(vol_size[0])
     y_flow = np.arange(vol_size[1])
     z_flow = np.arange(vol_size[2])
-    print(z_flow.shape)
     grid = np.array((np.meshgrid(x_flow, y_flow, z_flow)))#original coordinate
-
+    print(grid.shape)
     grid_x = grid_sample(x, y, z, grid[0, x, y, z], sample_num)
     grid_y = grid_sample(x, y, z, grid[1, x, y, z], sample_num)
     grid_z = grid_sample(x, y, z, grid[2, x, y, z], sample_num)# (10,10,10)
