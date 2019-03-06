@@ -121,9 +121,9 @@ def grid_sample(x, y, z, grid, sample_num):
     :return: grid after sample
     """
     sampled_grid = np.array((sample_num, sample_num, sample_num))
-    for i in sample_num:
-        for j in sample_num:
-            for m in sample_num:
+    for i in arange(sample_num):
+        for j in arange(sample_num):
+            for m in arange(sample_num):
                 sampled_grid[i, j, m] = grid[x[i, j, m], y[i, j, m], z[i, j, m]]
     return sampled_grid
 
