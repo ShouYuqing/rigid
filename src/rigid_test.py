@@ -102,6 +102,7 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
             for z in np.arange(10):
                 R[i, j, z, :, :] = np.dot(np.dot(np.linalg.inv(np.dot(np.transpose(X[i, j, z, :]), X[i, j, z, :])), X[i, j, z, :]), T)
 
+    # multiply R with
 
 
 
@@ -110,8 +111,8 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
 
 
 
-    sample = np.stack((sample[:, :, :, 1], sample[:, :, :, 0], sample[:, :, :, 2]), 3)
-    warp_seg = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], sample, method='nearest', bounds_error=False, fill_value=0)
+    #sample = np.stack((sample[:, :, :, 1], sample[:, :, :, 0], sample[:, :, :, 2]), 3)
+    #warp_seg = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], sample, method='nearest', bounds_error=False, fill_value=0)
 
     # sample the X(add coordinates)
 
@@ -124,13 +125,13 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     # To do above
 
     # Warp segments with flow
-    flow = pred[1][0, :, :, :, :]
-    sample = flow+grid
-    sample = np.stack((sample[:, :, :, 1], sample[:, :, :, 0], sample[:, :, :, 2]), 3)
-    warp_seg = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], sample, method='nearest', bounds_error=False, fill_value=0)
+    #flow = pred[1][0, :, :, :, :]
+    #sample = flow+grid
+    #sample = np.stack((sample[:, :, :, 1], sample[:, :, :, 0], sample[:, :, :, 2]), 3)
+    #warp_seg = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], sample, method='nearest', bounds_error=False, fill_value=0)
 
-    vals, _ = dice(warp_seg, atlas_seg, labels=labels, nargout=2)
-    print(np.mean(vals), np.std(vals))
+    #vals, _ = dice(warp_seg, atlas_seg, labels=labels, nargout=2)
+    #print(np.mean(vals), np.std(vals))
 
 if __name__ == "__main__":
     test(sys.argv[1], sys.argv[2], sys.argv[3])
