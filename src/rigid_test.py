@@ -125,6 +125,9 @@ def grid_sample(x, y, z, grid, sample_num):
     for i in np.arange(sample_num):
         for j in np.arange(sample_num):
             for m in np.arange(sample_num):
+                print(x[i, j, m])
+                print(y[i, j, m])
+                print(z[i, j, m])
                 sampled_grid[i, j, m] = grid[x[i, j, m], y[i, j, m], z[i, j, m]]
     return sampled_grid
 
