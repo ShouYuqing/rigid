@@ -121,7 +121,7 @@ def grid_sample(x, y, z, grid, sample_num):
     :param sample_num: sample num, then sample the grid with num*num*num
     :return: grid after sample
     """
-    sampled_grid = np.zeros((sample_num, sample_num, sample_num))
+    sampled_grid = np.ones((sample_num, sample_num, sample_num))
     for i in np.arange(sample_num):
         for j in np.arange(sample_num):
             for m in np.arange(sample_num):
