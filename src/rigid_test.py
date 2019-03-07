@@ -111,7 +111,7 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
                 YY = Y[i, j, z, :]
                 YY = YY.reshape(1, 4)
                 print(YY.shape)
-                R[i, j, z, :] = np.dot(np.dot(numpy.linalg.pinv(np.dot(np.transpose(XX), XX)), np.transpose(XX)), YY)
+                R[i, j, z, :] = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(XX), XX)), np.transpose(XX)), YY)
 
     print("R:")
     print(R[0, 0, 0, :, :])
