@@ -128,9 +128,9 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
                 R[i, j, z, :, :] = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(XX), XX)), np.transpose(XX)), YY)# R
 
 
-    #warp_seg = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([X_seg, R])
-    #vals, _ = dice(warp_seg, atlas_seg, labels=labels, nargout=2)
-    #print(np.mean(vals), np.std(vals))
+    warp_seg = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([X_seg, R[5, 5, 5, :].reshape(1, grid_dimension)])
+    vals, _ = dice(warp_seg, atlas_seg, labels=labels, nargout=2)
+    print(np.mean(vals), np.std(vals))
 
 def grid_sample(x, y, z, grid, sample_num):
     """
