@@ -95,6 +95,7 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     for i in np.arange(10):
         for j in np.arange(10):
             for z in np.arange(10):
+                print(str(i) + str(j) + str(z))
                 print(sample_x[i,j,z])
                 print(sample_y[i, j, z])
                 print(sample_z[i, j, z])
