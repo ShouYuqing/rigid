@@ -105,7 +105,15 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     for i in np.arange(10):
         for j in np.arange(10):
             for z in np.arange(10):
-                R[i, j, z, :] = np.dot(np.dot(np.linalg.inv(np.dot(np.squeeze(X[i, j, z, :]), np.squeeze(X[i, j, z, :]).reshape(1, 4))), np.squeeze(X[i, j, z, :])), np.squeeze(T).reshape(1, 4))
+                XX = np.array((4, 1))
+                XX = X[i, j, z, :]
+                XX = XX.reshape(1, 4)
+                print(XX.shape)
+                YY = np.array((4, 1))
+                YY = Y[i, j, z, :]
+                YY = YY.reshape(1, 4)
+                print(YY.shape)
+                R[i, j, z, :] = np.dot(np.dot(np.linalg.inv(np.dot(np.transpose(XX), XX)), np.transpose(XX)), YY)
 
     print("R:")
     print(R[0, 0, 0, :, :])
