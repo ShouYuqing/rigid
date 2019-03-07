@@ -72,7 +72,8 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     grid_x = grid_sample(x, y, z, grid[0, :, :, :], sample_num)
     grid_y = grid_sample(x, y, z, grid[1, :, :, :], sample_num)
     grid_z = grid_sample(x, y, z, grid[2, :, :, :], sample_num)# (10,10,10)
-
+    print(flow.shape)
+    print(grid.shape)
     sample = flow + grid
 
     sample = sample[x, y, z]
