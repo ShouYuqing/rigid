@@ -110,10 +110,8 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
             for z in np.arange(10):
                 XX = X[i, j, z, :]
                 XX = XX.reshape(1, 4)
-                print(XX.shape)
                 YY = Y[i, j, z, :]
                 YY = YY.reshape(1, 4)
-                print(YY.shape)
                 R[i, j, z, :] = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(XX), XX)), np.transpose(XX)), YY)
 
     print("R:")
