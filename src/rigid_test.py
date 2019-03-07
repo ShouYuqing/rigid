@@ -20,7 +20,7 @@ import medipy
 import networks
 from medipy.metrics import dice
 import datagenerators
-
+import neuron.layers as nrn_layers
 
 def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=[32,32,32,32,32,16,16,3], model_name = "vm2_cc", sample_num = 10, grid_dimension = 4):
     """
@@ -135,7 +135,9 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
 
 
 
-    warp_seg = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([X_seg, R[5, 5, 5, :].reshape(1, grid_dimension)])
+    #warp_seg = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([X_seg, R[5, 5, 5, :].reshape(1, grid_dimension)])
+    warp_seg = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')(
+        [X_seg, R])
     vals, _ = dice(warp_seg, atlas_seg, labels=labels, nargout=2)
     print(np.mean(vals), np.std(vals))
 
