@@ -22,7 +22,7 @@ from medipy.metrics import dice
 import datagenerators
 
 
-def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=[32,32,32,32,32,16,16,3], model_name = "vm2_cc", sample_num = 10, grid_dimension = 4):
+def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=[32,32,32,32,32,16,16,3], model_name = "vm2_cc", sample_num = 10, grid_dimension = 4):
     """
     Test of the rigid registration by calculating the dice score between the atlas's segmentation and warped image's segmentation
     :param iter_num: iteration number
@@ -99,10 +99,10 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     ave_z = sum_z/(vol_size[0] * vol_size[1] * vol_size[2])
 
     # formula
-    Y = np.zeros((10, 10, 10, 4))
-    X = np.zeros((10, 10, 10, 4))
+    Y = np.zeros((10, 10, 10, grid_dimension))
+    X = np.zeros((10, 10, 10, grid_dimension))
     T = np.array([ave_x, ave_y, ave_z, 1])#(4,1)
-    R = np.zeros((10, 10, 10, 4, 4))
+    R = np.zeros((10, 10, 10, grid_dimension, grid_dimension))
 
     for i in np.arange(10):
         for j in np.arange(10):
@@ -122,14 +122,14 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
         for j in np.arange(10):
             for z in np.arange(10):
                 XX = X[i, j, z, :]
-                XX = XX.reshape(1, 4)
+                XX = XX.reshape(1, grid_dimension)
                 YY = Y[i, j, z, :]
-                YY = YY.reshape(1, 4)
+                YY = YY.reshape(1, grid_dimension)
                 R[i, j, z, :, :] = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(XX), XX)), np.transpose(XX)), YY)# R
 
 
-    #warped_seg = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([, affine_matrix])
-
+    #warp_seg = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([X_seg, R])
+    vals, _ = dice(warp_seg, atlas_seg, labels=labels, nargout=2)
     # multiply R with
 
 def grid_sample(x, y, z, grid, sample_num):
