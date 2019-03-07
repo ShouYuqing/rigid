@@ -96,12 +96,12 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
         for j in np.arange(10):
             for z in np.arange(10):
                 Y[i, j, z, :] = np.array([sample_x[i,j,z], sample_y[i,j,z], sample_z[i,j,z], 1])
-    print("Y[i, j, z, :]'s shape" + str(Y[0, 0, 0, :].shape))
+
     for i in np.arange(10):
         for j in np.arange(10):
             for z in np.arange(10):
                 X[i, j, z, :] = np.array([grid_x[i, j, z], grid_y[i, j, z], grid_z[i, j, z], 1])
-    print("X[i, j, z, :]'s shape" + str(X[0, 0, 0, :].shape))
+
     for i in np.arange(10):
         for j in np.arange(10):
             for z in np.arange(10):
