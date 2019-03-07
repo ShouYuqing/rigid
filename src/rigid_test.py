@@ -107,12 +107,13 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
             for z in np.arange(10):
                 R[i, j, z, :] = np.dot(np.dot(np.linalg.inv(np.dot(np.transpose(X[i, j, z, :]), X[i, j, z, :])), X[i, j, z, :]), T)
 
+    print("R:")
+    print(R)
     # multiply R with
-
 
 def grid_sample(x, y, z, grid, sample_num):
     """
-    sample the grid with x y z index grid
+    sample the grid with x y z index
     :param x: x index grid
     :param y: y index grid
     :param z: z index grid
