@@ -71,12 +71,12 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     grid = np.rollaxis(np.array((np.meshgrid(y_flow, x_flow, z_flow))), 0, 4)#original coordinate
     grid_x = grid_sample(x, y, z, grid[:, :, :, 0], sample_num)
     grid_y = grid_sample(x, y, z, grid[:, :, :, 1], sample_num)
-    grid_z = grid_sample(x, y, z, grid[:, :, :, 2], sample_num)# (10,10,10)
-    sample = flow + grid
+    grid_z = grid_sample(x, y, z, grid[:, :, :, 2], sample_num)#X (10,10,10)
 
+    sample = flow + grid
     sample_x = grid_sample(x, y, z, sample[:, :, :, 0], sample_num)
     sample_y = grid_sample(x, y, z, sample[:, :, :, 1], sample_num)
-    sample_z = grid_sample(x, y, z, sample[:, :, :, 2], sample_num)# (10,10,10)
+    sample_z = grid_sample(x, y, z, sample[:, :, :, 2], sample_num)#Y (10,10,10)
 
     sum_x = np.sum(flow[:, :, :, 0])
     sum_y = np.sum(flow[:, :, :, 1])
@@ -102,8 +102,6 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
             for z in np.arange(10):
                 X[i, j, z, :] = np.array([grid_x[i, j, z], grid_y[i, j, z], grid_z[i, j, z], 1])
 
-    print("X:" + str(X.shape))
-    print("Y:" + str(Y.shape))
     for i in np.arange(10):
         for j in np.arange(10):
             for z in np.arange(10):
