@@ -51,7 +51,7 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
 
     # get flow
     flow = pred[1][0, :, :, :, :]
-
+    print(flow)
     # Compute A(all about coordinate computation)
     x = np.linspace(0, 160-16, sample_num)
     x = x.astype(np.int32)
