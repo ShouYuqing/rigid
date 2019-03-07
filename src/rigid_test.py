@@ -59,13 +59,10 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     y = y.astype(np.int32)
     z = np.linspace(0, 220-22, sample_num)
     z = z.astype(np.int32)
-    index = np.rollaxis(np.array(np.meshgrid(y, x, z)), 0, 4)
+    index = np.rollaxis(np.array(np.meshgrid(x, y, z)), 0, 4)
     x = index[:, :, :, 0]
     y = index[:, :, :, 1]
     z = index[:, :, :, 2]
-    print("x" + str(index[:, :, :, 0]))
-    print("y" + str(index[:, :, :, 0]))
-    print("z" + str(index[:, :, :, 0]))
     print("index's shape:"+str(index.shape))
 
     # Y in formula
