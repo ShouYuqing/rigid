@@ -105,7 +105,8 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     for i in np.arange(10):
         for j in np.arange(10):
             for z in np.arange(10):
-                R[i, j, z, :] = np.dot(np.dot(np.linalg.inv(np.dot(np.transpose(np.transpose(X[i, j, z, :])), np.transpose(X[i, j, z, :]))), np.transpose(X[i, j, z, :])), np.transpose(T))
+                R[i, j, z, :] = np.dot(np.dot(np.linalg.inv(np.dot(np.transpose(np.transpose(X[i, j, z, :])),
+                                            np.transpose(X[i, j, z, :]))), np.transpose(X[i, j, z, :])), np.transpose(T))
 
     print("R:")
     print(R[0, 0, 0, :, :])
