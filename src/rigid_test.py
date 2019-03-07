@@ -63,9 +63,9 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     x = index[:, :, :, 0]
     y = index[:, :, :, 1]
     z = index[:, :, :, 2]
-    print("x" + str(index[:, :, :, 0].shape))
-    print("y" + str(index[:, :, :, 0].shape))
-    print("z" + str(index[:, :, :, 0].shape))
+    print("x" + str(index[:, :, :, 0]))
+    print("y" + str(index[:, :, :, 0]))
+    print("z" + str(index[:, :, :, 0]))
     print("index's shape:"+str(index.shape))
 
     # Y in formula
