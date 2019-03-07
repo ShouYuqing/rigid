@@ -22,7 +22,19 @@ from medipy.metrics import dice
 import datagenerators
 
 
-def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=[32,32,32,32,32,16,16,3], model_name = "vm2_cc", sample_num = 10):
+def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=[32,32,32,32,32,16,16,3], model_name = "vm2_cc", sample_num = 10, grid_dimension = 4):
+    """
+    Test of the rigid registration by calculating the dice score between the atlas's segmentation and warped image's segmentation
+    :param iter_num: iteration number
+    :param gpu_id: gpu id
+    :param vol_size: volume's size
+    :param nf_enc: number of encode
+    :param nf_dec: number of decoder
+    :param model_name: load model's name
+    :param sample_num: sample grid's dimension
+    :param grid_dimension: R(in the formula)'s dimension
+    :return: None
+    """
     gpu = '/gpu:' + str(gpu_id)
 
     # Anatomical labels we want to evaluate
