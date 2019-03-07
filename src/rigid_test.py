@@ -103,7 +103,6 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     X = np.zeros((10, 10, 10, grid_dimension))
     T = np.array([ave_x, ave_y, ave_z, 1])#(4,1)
     #R = np.zeros((10, 10, 10, grid_dimension, grid_dimension))
-    R = np.zeros((grid_dimension, grid_dimension))
 
     for i in np.arange(10):
         for j in np.arange(10):
