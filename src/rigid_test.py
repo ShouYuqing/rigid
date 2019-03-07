@@ -71,19 +71,20 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     z_flow = np.arange(vol_size[2])
     grid = np.rollaxis(np.array((np.meshgrid(x_flow, y_flow, z_flow))), 0, 4)#original coordinate
     print("grid's shape:" + str(grid.shape))
+    print("flow's shape:" + str(flow.shape))
     grid_x = grid_sample(x, y, z, grid[0, :, :, :], sample_num)
     grid_y = grid_sample(x, y, z, grid[1, :, :, :], sample_num)
     grid_z = grid_sample(x, y, z, grid[2, :, :, :], sample_num)# (10,10,10)
     sample = flow + grid
 
     sample = sample[x, y, z]
-    sample_x = sample[0, x, y, z]
-    sample_y = sample[1, x, y, z]
-    sample_z = sample[2, x, y, z]#(10,10,10)
+    sample_x = sample[x, y, z, 0]
+    sample_y = sample[x, y, z, 1]
+    sample_z = sample[x, y, z, 2]#(10,10,10)
 
-    sum_x = np.sum(flow[0, :, :, :])
-    sum_y = np.sum(flow[1, :, :, :])
-    sum_z = np.sum(flow[2, :, :, :])
+    sum_x = np.sum(flow[:, :, :, 0])
+    sum_y = np.sum(flow[:, :, :, 1])
+    sum_z = np.sum(flow[:, :, :, 2])
 
     ave_x = sum_x/(vol_size[0] * vol_size[1] * vol_size[2])
     ave_y = sum_y/(vol_size[0] * vol_size[1] * vol_size[2])
