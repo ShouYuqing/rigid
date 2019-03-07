@@ -119,7 +119,12 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
             for z in np.arange(10):
                 X[i, j, z, :] = np.array([grid_x[i, j, z], grid_y[i, j, z], grid_z[i, j, z], 1])
 
-    for i in np.arange(10):
+    X = X.reshape((1000, grid_dimension))
+    Y = Y.reshape((1000, grid_dimension))
+    R = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(X), X)), np.transpose(X)), Y)# R
+    print(R)
+    """
+        for i in np.arange(10):
         for j in np.arange(10):
             for z in np.arange(10):
                 XX = X[i, j, z, :]
@@ -127,11 +132,13 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
                 YY = Y[i, j, z, :]
                 YY = YY.reshape(1, grid_dimension)
                 R[i, j, z, :, :] = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(XX), XX)), np.transpose(XX)), YY)# R
+    """
 
 
-    warp_seg = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([X_seg, R[5, 5, 5, :].reshape(1, grid_dimension)])
-    vals, _ = dice(warp_seg, atlas_seg, labels=labels, nargout=2)
-    print(np.mean(vals), np.std(vals))
+
+    #warp_seg = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([X_seg, R[5, 5, 5, :].reshape(1, grid_dimension)])
+    #vals, _ = dice(warp_seg, atlas_seg, labels=labels, nargout=2)
+    #print(np.mean(vals), np.std(vals))
 
 def grid_sample(x, y, z, grid, sample_num):
     """
