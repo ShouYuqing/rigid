@@ -115,7 +115,7 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
                 YY = YY.reshape(1, 4)
                 R[i, j, z, :, :] = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(XX), XX)), np.transpose(XX)), YY)# R
 
-    print(R[1, 1, 1, :])
+
     #warped_seg = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([, affine_matrix])
 
     # multiply R with
@@ -137,17 +137,13 @@ def grid_sample(x, y, z, grid, sample_num):
                 sampled_grid[i, j, m] = grid[x[i, j, m], y[i, j, m], z[i, j, m]]
     return sampled_grid
 
-
-
-
-
     #sample = np.stack((sample[:, :, :, 1], sample[:, :, :, 0], sample[:, :, :, 2]), 3)
     #warp_seg = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], sample, method='nearest', bounds_error=False, fill_value=0)
 
     # sample the X(add coordinates)
 
 
-    flow_sample = interpn((x, y, z), X_seg[0, :, :, :, 0], flow, method = 'nearest', bounds_error = False, fill_value = 0)
+    #flow_sample = interpn((x, y, z), X_seg[0, :, :, :, 0], flow, method = 'nearest', bounds_error = False, fill_value = 0)
 
     # sample the Y(Warped_X)
     # # (3,10,10,10) grid = np.rollaxis(np.array(np.meshgrid(xx, yy, zz)), 0, 4)
