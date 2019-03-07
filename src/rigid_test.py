@@ -51,7 +51,7 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
 
     # get flow
     flow = pred[1][0, :, :, :, :]
-    print(flow)
+
     # Compute A(all about coordinate computation)
     x = np.linspace(0, 160-16, sample_num)
     x = x.astype(np.int32)
@@ -113,9 +113,10 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
                 XX = XX.reshape(1, 4)
                 YY = Y[i, j, z, :]
                 YY = YY.reshape(1, 4)
-                R[i, j, z, :, :] = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(XX), XX)), np.transpose(XX)), YY)# R 
+                R[i, j, z, :, :] = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(XX), XX)), np.transpose(XX)), YY)# R
 
-    warped_seg = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([, affine_matrix])
+    print(R[1, 1, 1, :])
+    #warped_seg = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([, affine_matrix])
 
     # multiply R with
 
