@@ -77,7 +77,7 @@ def test( iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec
     sample_x = grid_sample(x, y, z, sample[:, :, :, 0], sample_num)
     sample_y = grid_sample(x, y, z, sample[:, :, :, 1], sample_num)
     sample_z = grid_sample(x, y, z, sample[:, :, :, 2], sample_num)#Y (10,10,10)
-    print(sample_x[0, 0, 0, :])
+    print(sample_x[0, 0, :])
     sum_x = np.sum(flow[:, :, :, 0])
     sum_y = np.sum(flow[:, :, :, 1])
     sum_z = np.sum(flow[:, :, :, 2])
