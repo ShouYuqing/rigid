@@ -108,10 +108,6 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     for i in np.arange(10):
         for j in np.arange(10):
             for z in np.arange(10):
-                #print(str(i) + str(j) + str(z))
-                #print(sample_x[i,j,z])
-                #print(sample_y[i, j, z])
-                #print(sample_z[i, j, z])
                 Y[i, j, z, :] = np.array([sample_x[i,j,z], sample_y[i,j,z], sample_z[i,j,z], 1])
 
     for i in np.arange(10):
@@ -123,6 +119,7 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     Y = Y.reshape((1000, grid_dimension))
     R = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(X), X)), np.transpose(X)), Y)# R
     print(R)
+
     """
         for i in np.arange(10):
         for j in np.arange(10):
