@@ -142,7 +142,7 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
 
     # compute dice
     vals, _ = dice(warp_seg, atlas_seg, labels=labels, nargout=2)
-    vals2, _ = dice(X_seg, atlas_seg, labels=labels, nargout=2)
+    vals2, _ = dice(X_seg[0, :, :, :, 0], atlas_seg, labels=labels, nargout=2)
     print("dice before:")
     print(np.mean(vals2), np.std(vals2))
     print("dice after rigid registration:")
