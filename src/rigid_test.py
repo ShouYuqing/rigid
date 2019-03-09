@@ -120,6 +120,8 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     R = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(X), X)), np.transpose(X)), Y)# R
     print(R)
     print(T)
+    print("point (1, 1, 1) after registration:")
+    print(np.dot(R, np.ones((4,1))) +  T)
 
     """
         for i in np.arange(10):
