@@ -128,13 +128,20 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
         for j in np.arange(vol_size[1]):
             for z in np.arange(vol_size[2]):
                 coordinates = np.dot(R, np.array([i, j, z, 1]).reshape(4,1)) +  T.reshape(4,1)
-                print(coordinates.shape)
+                print("voxel." + '(' + str(i) + ',' + str(j) + ',' + str(z) + ')')
                 shifted_grid[i, j, z, 0] = coordinates[0]
                 shifted_grid[i, j, z, 1] = coordinates[1]
                 shifted_grid[i, j, z, 2] = coordinates[2]
 
     # interpolation
-    #warp_seg = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], sample, method='nearest', bounds_error=False, fill_value=0)
+    xx = np.arange(vol_size[1])
+    yy = np.arange(vol_size[0])
+    zz = np.arange(vol_size[2])
+    warp_seg = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], shifted_grid, method='nearest', bounds_error=False, fill_value=0)
+    vals, _ = dice(warp_seg, atlas_seg, labels=labels, nargout=2)
+    print("dice:")
+    print(np.mean(vals), np.std(vals))
+
 
     #print(R)
     #print(T)
