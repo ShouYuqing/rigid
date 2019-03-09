@@ -149,13 +149,13 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     print(np.mean(vals), np.std(vals))
 
     # plot
-    fig1, axs1 = nplt.slices(warp_seg[100, :, :], titles = "slice_100", do_colorbars=True)
+    fig1, axs1 = nplt.slices(warp_seg[100, :, :], do_colorbars=True)
     fig1.savefig('warp_seg100.png')
-    fig2, axs2 = nplt.slices(warp_seg[130, :, :], titles = "slice_130", do_colorbars=True)
+    fig2, axs2 = nplt.slices(warp_seg[130, :, :], do_colorbars=True)
     fig2.savefig('warp_seg130.png')
-    fig3, axs3 = nplt.slices(atlas_seg[100, :, :], titles = "slice_100", do_colorbars=True)
+    fig3, axs3 = nplt.slices(atlas_seg[100, :, :], do_colorbars=True)
     fig3.savefig('atlas_seg100.png')
-    fig4, axs4 = nplt.slices(atlas_seg[130, :, :], titles="slice_130", do_colorbars=True)
+    fig4, axs4 = nplt.slices(atlas_seg[130, :, :], do_colorbars=True)
     fig4.savefig('atlas_seg130.png')
 
     #print(R)
