@@ -119,6 +119,7 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     Y = Y.reshape((1000, grid_dimension))
     R = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(X), X)), np.transpose(X)), Y)# R
     print(R)
+    print(T)
 
     """
         for i in np.arange(10):
