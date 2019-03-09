@@ -22,6 +22,7 @@ from medipy.metrics import dice
 import datagenerators
 import neuron.layers as nrn_layers
 import neuron.utils as util
+import neuron.plot as nplt
 
 def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=[32,32,32,32,32,16,16,3], model_name = "vm2_cc", sample_num = 10, grid_dimension = 4):
     """
@@ -138,8 +139,13 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     yy = np.arange(vol_size[0])
     zz = np.arange(vol_size[2])
     warp_seg = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], shifted_grid, method='nearest', bounds_error=False, fill_value=0)
+
+    # compute dice
     vals, _ = dice(warp_seg, atlas_seg, labels=labels, nargout=2)
-    print("dice:")
+    vals2, _ = dice(X_seg, atlas_seg, labels=labels, nargout=2)
+    print("dice before:")
+    print(np.mean(vals2), np.std(vals2))
+    print("dice after rigid registration:")
     print(np.mean(vals), np.std(vals))
 
 
@@ -148,17 +154,15 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     #print("point (1, 1, 1) after registration:")
     #print(np.dot(R, np.ones((4,1))) +  T.reshape(4,1))
 
-    """
-        for i in np.arange(10):
-        for j in np.arange(10):
-            for z in np.arange(10):
-                XX = X[i, j, z, :]
-                XX = XX.reshape(1, grid_dimension)
-                YY = Y[i, j, z, :]
-                YY = YY.reshape(1, grid_dimension)
-                R[i, j, z, :, :] = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(XX), XX)), np.transpose(XX)), YY)# R
-    """
 
+    #for i in np.arange(10):
+    #    for j in np.arange(10):
+    #        for z in np.arange(10):
+    #            XX = X[i, j, z, :]
+    #            XX = XX.reshape(1, grid_dimension)
+    #            YY = Y[i, j, z, :]
+    #            YY = YY.reshape(1, grid_dimension)
+    #            R[i, j, z, :, :] = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(XX), XX)), np.transpose(XX)), YY)# R
     #shift_flow = util.affine_to_shift(R, volshape, shift_center=True, indexing='ij'):
     #warp_seg = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([X_seg, R[5, 5, 5, :].reshape(1, grid_dimension)])
     #vals, _ = dice(warp_seg, atlas_seg, labels=labels, nargout=2)
@@ -187,13 +191,10 @@ def grid_sample(x, y, z, grid, sample_num):
 
     # sample the X(add coordinates)
 
-
     #flow_sample = interpn((x, y, z), X_seg[0, :, :, :, 0], flow, method = 'nearest', bounds_error = False, fill_value = 0)
 
     # sample the Y(Warped_X)
     # # (3,10,10,10) grid = np.rollaxis(np.array(np.meshgrid(xx, yy, zz)), 0, 4)
-
-    # To do above
 
     # Warp segments with flow
     #flow = pred[1][0, :, :, :, :]
