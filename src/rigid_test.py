@@ -118,10 +118,27 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     X = X.reshape((1000, grid_dimension))
     Y = Y.reshape((1000, grid_dimension))
     R = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(X), X)), np.transpose(X)), Y)# R
-    print(R)
-    print(T)
-    print("point (1, 1, 1) after registration:")
-    print(np.dot(R, np.ones((4,1))) +  T.reshape(4,1))
+
+    # build new grid(Use R to do the spatial transform)
+    shifted_x = np.arange(vol_size[0])
+    shifted_y = np.arange(vol_size[1])
+    shifted_z = np.arange(vol_size[2])
+    shifted_grid = np.rollaxis(np.array((np.meshgrid(shifted_y, shifted_x, shifted_z))), 0, 4)
+    for i in np.arange(vol_size[0]):
+        for j in np.arange(vol_size[1]):
+            for z in np.arange(vol_size[2]):
+                coordinates = np.dot(R, np.array([i, j, z, 1])) +  T.reshape(4,1)
+                shifted_grid[i, j, z, 0] = coordinates[0]
+                shifted_grid[i, j, z, 1] = coordinates[1]
+                shifted_grid[i, j, z, 2] = coordinates[2]
+
+    # interpolation
+    #warp_seg = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], sample, method='nearest', bounds_error=False, fill_value=0)
+
+    #print(R)
+    #print(T)
+    #print("point (1, 1, 1) after registration:")
+    #print(np.dot(R, np.ones((4,1))) +  T.reshape(4,1))
 
     """
         for i in np.arange(10):
@@ -134,12 +151,11 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
                 R[i, j, z, :, :] = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(XX), XX)), np.transpose(XX)), YY)# R
     """
 
-
-
-    warp_seg = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([X_seg, R[5, 5, 5, :].reshape(1, grid_dimension)])
-    vals, _ = dice(warp_seg, atlas_seg, labels=labels, nargout=2)
-    print("dice:")
-    print(np.mean(vals), np.std(vals))
+    #shift_flow = util.affine_to_shift(R, volshape, shift_center=True, indexing='ij'):
+    #warp_seg = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([X_seg, R[5, 5, 5, :].reshape(1, grid_dimension)])
+    #vals, _ = dice(warp_seg, atlas_seg, labels=labels, nargout=2)
+    #print("dice:")
+    #print(np.mean(vals), np.std(vals))
 
 def grid_sample(x, y, z, grid, sample_num):
     """
