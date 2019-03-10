@@ -124,12 +124,16 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     shifted_x = np.arange(vol_size[0])
     shifted_y = np.arange(vol_size[1])
     shifted_z = np.arange(vol_size[2])
+    print(shifted_x.shape)
+    print(shifted_y.shape)
+    print(shifted_z.shape)
     shifted_grid = np.rollaxis(np.array((np.meshgrid(shifted_y, shifted_x, shifted_z))), 0, 4)
+    print(shifted_grid.shape)
     for i in np.arange(vol_size[0]):
         for j in np.arange(vol_size[1]):
             for z in np.arange(vol_size[2]):
                 coordinates = np.dot(R, np.array([i, j, z, 1]).reshape(4,1)) +  T.reshape(4,1)
-                print("voxel." + '(' + str(i) + ',' + str(j) + ',' + str(z) + ')')
+                #print("voxel." + '(' + str(i) + ',' + str(j) + ',' + str(z) + ')')
                 shifted_grid[i, j, z, 0] = coordinates[0]
                 shifted_grid[i, j, z, 1] = coordinates[1]
                 shifted_grid[i, j, z, 2] = coordinates[2]
