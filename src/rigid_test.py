@@ -138,14 +138,13 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     xx = np.arange(vol_size[1])
     yy = np.arange(vol_size[0])
     zz = np.arange(vol_size[2])
+    warp_seg = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], shifted_grid, method='nearest', bounds_error=False, fill_value=0)
 
     # CVPR
     grid = np.rollaxis(np.array(np.meshgrid(xx, yy, zz)), 0, 4)
     sample = flow + grid
     sample = np.stack((sample[:, :, :, 1], sample[:, :, :, 0], sample[:, :, :, 2]), 3)
     warp_seg2 = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], sample, method='nearest', bounds_error=False, fill_value=0)
-
-    warp_seg = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], shifted_grid, method='nearest', bounds_error=False, fill_value=0)
 
     # compute dice
     vals, _ = dice(warp_seg, atlas_seg, labels=labels, nargout=2)
