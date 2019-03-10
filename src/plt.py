@@ -15,5 +15,4 @@ volume = img['vol_data']
 print(volume.shape)
 plt.figure()
 plot(volume[100, :, :])
-#plt.plot(volume[100,:,:])
 plt.savefig("1.png")
