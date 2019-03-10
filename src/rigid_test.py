@@ -139,13 +139,13 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     xx = np.arange(vol_size[1])
     yy = np.arange(vol_size[0])
     zz = np.arange(vol_size[2])
-    warp_seg = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], shifted_grid, method='nearest', bounds_error=False, fill_value=0)
+    warp_seg = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], shifted_grid, method='nearest', bounds_error=False, fill_value=0)# rigid registration
 
     # CVPR
     grid = np.rollaxis(np.array(np.meshgrid(xx, yy, zz)), 0, 4)
     sample = flow + grid
     sample = np.stack((sample[:, :, :, 1], sample[:, :, :, 0], sample[:, :, :, 2]), 3)
-    warp_seg2 = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], sample, method='nearest', bounds_error=False, fill_value=0)
+    warp_seg2 = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], sample, method='nearest', bounds_error=False, fill_value=0)# deformable registration
 
     # compute dice
     vals, _ = dice(warp_seg, atlas_seg, labels=labels, nargout=2)
@@ -174,20 +174,6 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     #print(np.dot(R, np.ones((4,1))) +  T.reshape(4,1))
 
 
-    #for i in np.arange(10):
-    #    for j in np.arange(10):
-    #        for z in np.arange(10):
-    #            XX = X[i, j, z, :]
-    #            XX = XX.reshape(1, grid_dimension)
-    #            YY = Y[i, j, z, :]
-    #            YY = YY.reshape(1, grid_dimension)
-    #            R[i, j, z, :, :] = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(XX), XX)), np.transpose(XX)), YY)# R
-    #shift_flow = util.affine_to_shift(R, volshape, shift_center=True, indexing='ij'):
-    #warp_seg = nrn_layers.SpatialTransformer(interp_method='linear', indexing='xy')([X_seg, R[5, 5, 5, :].reshape(1, grid_dimension)])
-    #vals, _ = dice(warp_seg, atlas_seg, labels=labels, nargout=2)
-    #print("dice:")
-    #print(np.mean(vals), np.std(vals))
-
 def grid_sample(x, y, z, grid, sample_num):
     """
     sample the grid with x y z index
@@ -214,15 +200,6 @@ def grid_sample(x, y, z, grid, sample_num):
 
     # sample the Y(Warped_X)
     # # (3,10,10,10) grid = np.rollaxis(np.array(np.meshgrid(xx, yy, zz)), 0, 4)
-
-    # Warp segments with flow
-    #flow = pred[1][0, :, :, :, :]
-    #sample = flow+grid
-    #sample = np.stack((sample[:, :, :, 1], sample[:, :, :, 0], sample[:, :, :, 2]), 3)
-    #warp_seg = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], sample, method='nearest', bounds_error=False, fill_value=0)
-
-    #vals, _ = dice(warp_seg, atlas_seg, labels=labels, nargout=2)
-    #print(np.mean(vals), np.std(vals))
 
 if __name__ == "__main__":
     test(sys.argv[1], sys.argv[2])
