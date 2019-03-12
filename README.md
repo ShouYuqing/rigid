@@ -20,7 +20,7 @@ Trying to solve an optimization problem, which will get an affine transform matr
 
 > rigid_test.py implements the rigid registration.
 ```math
-R = (X_{T})
+R = (X^T X)
 ```
 
 ## Citation
