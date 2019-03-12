@@ -174,6 +174,8 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     #print(np.dot(R, np.ones((4,1))) +  T.reshape(4,1))
 
 
+
+
 def grid_sample(x, y, z, grid, sample_num):
     """
     sample the grid with x y z index
