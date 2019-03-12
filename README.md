@@ -19,9 +19,9 @@ A 3D-spatial transformer, which is similar to the standard STN is utilized to do
 Trying to solve an optimization problem, which will get an affine transform matrix for spatial transformer to do the registration.
 
 > rigid_test.py implements the rigid registration.
-```math
-R = (X^T X)
-```
+
+$$R = (X^T X)^-1$$
+
 
 ## Citation
 Based on medical image processing library [Voxelmorph](https://arxiv.org/abs/1809.05231/) 
