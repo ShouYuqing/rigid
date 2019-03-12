@@ -20,8 +20,6 @@ Trying to solve an optimization problem, which will get an affine transform matr
 
 > rigid_test.py implements the rigid registration.
 
-$$R = (X^T X)^-1$$
-
 
 ## Citation
 Based on medical image processing library [Voxelmorph](https://arxiv.org/abs/1809.05231/) 
