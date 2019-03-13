@@ -73,7 +73,7 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     y = y.astype(np.int32)
     z = np.linspace(0, (vol_size[2]/sample_num)*(sample_num-1), sample_num)
     z = z.astype(np.int32)
-    index = np.rollaxis(np.array(np.meshgrid(y, x, z)), 0, 4)
+    index = np.rollaxis(np.array(np.meshgrid(x, y, z)), 0, 4)
     print("index's shape:" + str(index.shape))
     print(index[:, :, :, 0])
     print(index[:, :, :, 1])
@@ -95,7 +95,7 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     x_flow = np.arange(vol_size[0])
     y_flow = np.arange(vol_size[1])
     z_flow = np.arange(vol_size[2])
-    grid = np.rollaxis(np.array((np.meshgrid(y_flow, x_flow, z_flow))), 0, 4)#original coordinate
+    grid = np.rollaxis(np.array((np.meshgrid(x_flow, y_flow, z_flow))), 0, 4)#original coordinate
     print("grid's shape:" + str(grid.shape))
     print("grid_sample 0:" + str(grid[:, :, :, 0].shape))
     grid_x = grid_sample(x, y, z, grid[:, :, :, 0], sample_num)
