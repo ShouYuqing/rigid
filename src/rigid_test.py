@@ -139,7 +139,7 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     shifted_x = np.arange(vol_size[0])
     shifted_y = np.arange(vol_size[1])
     shifted_z = np.arange(vol_size[2])
-    shifted_grid = np.rollaxis(np.array((np.meshgrid(shifted_y, shifted_x, shifted_z))), 0, 4)
+    shifted_grid = np.rollaxis(np.array((np.meshgrid(shifted_x, shifted_y, shifted_z))), 0, 4)
     print(shifted_grid.shape)
     for i in np.arange(vol_size[0]):
         for j in np.arange(vol_size[1]):
