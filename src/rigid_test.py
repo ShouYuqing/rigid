@@ -67,11 +67,11 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     flow = pred[1][0, :, :, :, :]
 
     # Compute A(all about coordinate computation)
-    x = np.linspace(0, 160-16, sample_num)
+    x = np.linspace(0, (160/sample_num)*(sample_num-1), sample_num)
     x = x.astype(np.int32)
-    y = np.linspace(0, 190-19, sample_num)
+    y = np.linspace(0, (190/sample_num)*(sample_num-1), sample_num)
     y = y.astype(np.int32)
-    z = np.linspace(0, 220-22, sample_num)
+    z = np.linspace(0, (220/sample_num)*(sample_num-1), sample_num)
     z = z.astype(np.int32)
     index = np.rollaxis(np.array(np.meshgrid(x, y, z)), 0, 4)
     x = index[:, :, :, 0]
@@ -101,23 +101,23 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     ave_z = sum_z/(vol_size[0] * vol_size[1] * vol_size[2])
 
     # formula
-    Y = np.zeros((10, 10, 10, grid_dimension))
-    X = np.zeros((10, 10, 10, grid_dimension))
+    Y = np.zeros((sample_num, sample_num, sample_num, grid_dimension))
+    X = np.zeros((sample_num, sample_num, sample_num, grid_dimension))
     T = np.array([ave_x, ave_y, ave_z, 1])#(4,1)
     #R = np.zeros((10, 10, 10, grid_dimension, grid_dimension))
 
-    for i in np.arange(10):
-        for j in np.arange(10):
-            for z in np.arange(10):
+    for i in np.arange(sample_num):
+        for j in np.arange(sample_num):
+            for z in np.arange(sample_num):
                 Y[i, j, z, :] = np.array([sample_x[i,j,z], sample_y[i,j,z], sample_z[i,j,z], 1])
 
-    for i in np.arange(10):
-        for j in np.arange(10):
-            for z in np.arange(10):
+    for i in np.arange(sample_num):
+        for j in np.arange(sample_num):
+            for z in np.arange(sample_num):
                 X[i, j, z, :] = np.array([grid_x[i, j, z], grid_y[i, j, z], grid_z[i, j, z], 1])
 
-    X = X.reshape((1000, grid_dimension))
-    Y = Y.reshape((1000, grid_dimension))
+    X = X.reshape((sample_num * sample_num * sample_num, grid_dimension))
+    Y = Y.reshape((sample_num * sample_num * sample_num, grid_dimension))
     R = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(X), X)), np.transpose(X)), Y)# R
 
     # build new grid(Use R to do the spatial transform)
@@ -130,7 +130,7 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
         for j in np.arange(vol_size[1]):
             for z in np.arange(vol_size[2]):
                 coordinates = np.dot(R, np.array([i, j, z, 1]).reshape(4,1)) +  T.reshape(4,1)
-                #print("voxel." + '(' + str(i) + ',' + str(j) + ',' + str(z) + ')')
+                print("voxel." + '(' + str(i) + ',' + str(j) + ',' + str(z) + ')')
                 shifted_grid[i, j, z, 0] = coordinates[0]
                 shifted_grid[i, j, z, 1] = coordinates[1]
                 shifted_grid[i, j, z, 2] = coordinates[2]
