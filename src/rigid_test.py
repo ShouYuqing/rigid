@@ -140,7 +140,7 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     yy = np.arange(vol_size[0])
     zz = np.arange(vol_size[2])
     shifted_grid = np.stack((shifted_grid[:, :, :, 1], shifted_grid[:, :, :, 0], shifted_grid[:, :, :, 2]), 3)# notice: the shifted_grid is reverse in x and y, so this step is used for making it back.
-    warp_seg = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], shifted_grid, method='nearest', bounds_error=False, fill_value=0)# rigid registration
+    warp_seg = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], shifted_grid, method='linear', bounds_error=False, fill_value=0)# rigid registration
 
     # CVPR
     grid = np.rollaxis(np.array(np.meshgrid(xx, yy, zz)), 0, 4)
