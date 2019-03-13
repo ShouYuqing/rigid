@@ -75,6 +75,9 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     z = z.astype(np.int32)
     index = np.rollaxis(np.array(np.meshgrid(x, y, z)), 0, 4)
     print("index's shape:" + str(index.shape))
+    print("vol_size[0]'s shape:" + str(vol_size[0]))
+    print("vol_size[1]'s shape:" + str(vol_size[1]))
+    print("vol_size[2]'s shape:" + str(vol_size[2]))
     x = index[:, :, :, 0]
     y = index[:, :, :, 1]
     z = index[:, :, :, 2]
