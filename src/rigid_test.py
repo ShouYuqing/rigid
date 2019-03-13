@@ -74,6 +74,7 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     z = np.linspace(0, (vol_size[2]/sample_num)*(sample_num-1), sample_num)
     z = z.astype(np.int32)
     index = np.rollaxis(np.array(np.meshgrid(x, y, z)), 0, 4)
+    print("index's shape:" + str(index.shape))
     x = index[:, :, :, 0]
     y = index[:, :, :, 1]
     z = index[:, :, :, 2]
@@ -83,6 +84,7 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     y_flow = np.arange(vol_size[1])
     z_flow = np.arange(vol_size[2])
     grid = np.rollaxis(np.array((np.meshgrid(y_flow, x_flow, z_flow))), 0, 4)#original coordinate
+    print("grid's shape:" + str(grid.shape))
     grid_x = grid_sample(x, y, z, grid[:, :, :, 0], sample_num)
     grid_y = grid_sample(x, y, z, grid[:, :, :, 1], sample_num)
     grid_z = grid_sample(x, y, z, grid[:, :, :, 2], sample_num)#X (10,10,10)
@@ -130,7 +132,7 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
         for j in np.arange(vol_size[1]):
             for z in np.arange(vol_size[2]):
                 coordinates = np.dot(R, np.array([i, j, z, 1]).reshape(4,1)) +  T.reshape(4,1)
-                print("voxel." + '(' + str(i) + ',' + str(j) + ',' + str(z) + ')')
+                #print("voxel." + '(' + str(i) + ',' + str(j) + ',' + str(z) + ')')
                 shifted_grid[i, j, z, 0] = coordinates[0]
                 shifted_grid[i, j, z, 1] = coordinates[1]
                 shifted_grid[i, j, z, 2] = coordinates[2]
