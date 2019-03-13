@@ -73,33 +73,18 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     y = y.astype(np.int32)
     z = np.linspace(0, (vol_size[2]/sample_num)*(sample_num-1), sample_num)
     z = z.astype(np.int32)
-    index = np.rollaxis(np.array(np.meshgrid(x, y, z)), 0, 4)
-    print("index's shape:" + str(index.shape))
-    print(index[:, :, :, 0])
-    print(index[:, :, :, 1])
-    print(index[:, :, :, 2])
-    print("vol_size[0]'s shape:" + str(vol_size[0]))
-    print(x)
-    print(y)
-    print(z)
-    print("vol_size[1]'s shape:" + str(vol_size[1]))
-    print("vol_size[2]'s shape:" + str(vol_size[2]))
+    index = np.rollaxis(np.array(np.meshgrid(y, x, z)), 0, 4)
     x = index[:, :, :, 1]
     y = index[:, :, :, 0]
     z = index[:, :, :, 2]
-    print("x's shape:" + str(x.shape))
-    print("y's shape:" + str(y.shape))
-    print("z's shape:" + str(z.shape))
 
     # Y in formula
     x_flow = np.arange(vol_size[0])
     y_flow = np.arange(vol_size[1])
     z_flow = np.arange(vol_size[2])
-    grid = np.rollaxis(np.array((np.meshgrid(x_flow, y_flow, z_flow))), 0, 4)#original coordinate
-    print("grid's shape:" + str(grid.shape))
-    print("grid_sample 0:" + str(grid[:, :, :, 0].shape))
-    grid_x = grid_sample(x, y, z, grid[:, :, :, 0], sample_num)
-    grid_y = grid_sample(x, y, z, grid[:, :, :, 1], sample_num)
+    grid = np.rollaxis(np.array((np.meshgrid(y_flow, x_flow, z_flow))), 0, 4)#original coordinate
+    grid_x = grid_sample(x, y, z, grid[:, :, :, 1], sample_num)
+    grid_y = grid_sample(x, y, z, grid[:, :, :, 0], sample_num)
     grid_z = grid_sample(x, y, z, grid[:, :, :, 2], sample_num)#X (10,10,10)
 
     sample = flow + grid
@@ -108,10 +93,6 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     sample_z = grid_sample(x, y, z, sample[:, :, :, 2], sample_num)#Y (10,10,10)
 
     sum_x = np.sum(flow[:, :, :, 1])
-    print(flow[:, :, :, 1])
-    print(flow[:, :, :, 0])
-    print(flow[:, :, :, 2])
-
     sum_y = np.sum(flow[:, :, :, 0])
     sum_z = np.sum(flow[:, :, :, 2])
 
@@ -138,7 +119,7 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     X = X.reshape((sample_num * sample_num * sample_num, grid_dimension))
     Y = Y.reshape((sample_num * sample_num * sample_num, grid_dimension))
     R = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(X), X)), np.transpose(X)), Y)# R
-
+    print(R)
     # build new grid(Use R to do the spatial transform)
     shifted_x = np.arange(vol_size[0])
     shifted_y = np.arange(vol_size[1])
@@ -158,7 +139,7 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     xx = np.arange(vol_size[1])
     yy = np.arange(vol_size[0])
     zz = np.arange(vol_size[2])
-    shifted_grid = np.stack((shifted_grid[:, :, :, 1], shifted_grid[:, :, :, 0], shifted_grid[:, :, :, 2]), 3)# notice: the shifted_grid is reverser in x and y, so this step is used for making it back.
+    shifted_grid = np.stack((shifted_grid[:, :, :, 1], shifted_grid[:, :, :, 0], shifted_grid[:, :, :, 2]), 3)# notice: the shifted_grid is reverse in x and y, so this step is used for making it back.
     warp_seg = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], shifted_grid, method='nearest', bounds_error=False, fill_value=0)# rigid registration
 
     # CVPR
