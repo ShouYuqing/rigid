@@ -67,11 +67,11 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     flow = pred[1][0, :, :, :, :]
 
     # Compute A(all about coordinate computation)
-    x = np.linspace(0, (160/sample_num)*(sample_num-1), sample_num)
+    x = np.linspace(0, (vol_size[0]/sample_num)*(sample_num-1), sample_num)
     x = x.astype(np.int32)
-    y = np.linspace(0, (192/sample_num)*(sample_num-1), sample_num)
+    y = np.linspace(0, (vol_size[1]/sample_num)*(sample_num-1), sample_num)
     y = y.astype(np.int32)
-    z = np.linspace(0, (224/sample_num)*(sample_num-1), sample_num)
+    z = np.linspace(0, (vol_size[2]/sample_num)*(sample_num-1), sample_num)
     z = z.astype(np.int32)
     index = np.rollaxis(np.array(np.meshgrid(x, y, z)), 0, 4)
     x = index[:, :, :, 0]
