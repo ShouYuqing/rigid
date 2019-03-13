@@ -1,5 +1,5 @@
 """
-test for rigid registration, from shift flow output a rigid matrix.
+rigid registration
 """
 
 # py imports
