@@ -75,8 +75,8 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     z = z.astype(np.int32)
     index = np.rollaxis(np.array(np.meshgrid(y, x, z)), 0, 4)
     print("index's shape:" + str(index.shape))
-    print(index[:, :, :, 0])
     print(index[:, :, :, 1])
+    print(index[:, :, :, 0])
     print(index[:, :, :, 2])
     print("vol_size[0]'s shape:" + str(vol_size[0]))
     print(x)
@@ -84,8 +84,8 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     print(z)
     print("vol_size[1]'s shape:" + str(vol_size[1]))
     print("vol_size[2]'s shape:" + str(vol_size[2]))
-    x = index[:, :, :, 0]
-    y = index[:, :, :, 1]
+    x = index[:, :, :, 1]
+    y = index[:, :, :, 0]
     z = index[:, :, :, 2]
     print("x's shape:" + str(x.shape))
     print("y's shape:" + str(y.shape))
@@ -98,17 +98,17 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     grid = np.rollaxis(np.array((np.meshgrid(y_flow, x_flow, z_flow))), 0, 4)#original coordinate
     print("grid's shape:" + str(grid.shape))
     print("grid_sample 0:" + str(grid[:, :, :, 0].shape))
-    grid_x = grid_sample(x, y, z, grid[:, :, :, 0], sample_num)
-    grid_y = grid_sample(x, y, z, grid[:, :, :, 1], sample_num)
+    grid_x = grid_sample(x, y, z, grid[:, :, :, 1], sample_num)
+    grid_y = grid_sample(x, y, z, grid[:, :, :, 0], sample_num)
     grid_z = grid_sample(x, y, z, grid[:, :, :, 2], sample_num)#X (10,10,10)
 
     sample = flow + grid
-    sample_x = grid_sample(x, y, z, sample[:, :, :, 0], sample_num)
-    sample_y = grid_sample(x, y, z, sample[:, :, :, 1], sample_num)
+    sample_x = grid_sample(x, y, z, sample[:, :, :, 1], sample_num)
+    sample_y = grid_sample(x, y, z, sample[:, :, :, 0], sample_num)
     sample_z = grid_sample(x, y, z, sample[:, :, :, 2], sample_num)#Y (10,10,10)
 
-    sum_x = np.sum(flow[:, :, :, 0])
-    sum_y = np.sum(flow[:, :, :, 1])
+    sum_x = np.sum(flow[:, :, :, 1])
+    sum_y = np.sum(flow[:, :, :, 0])
     sum_z = np.sum(flow[:, :, :, 2])
 
     ave_x = sum_x/(vol_size[0] * vol_size[1] * vol_size[2])
@@ -146,8 +146,8 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
             for z in np.arange(vol_size[2]):
                 coordinates = np.dot(R, np.array([i, j, z, 1]).reshape(4,1)) +  T.reshape(4,1)
                 #print("voxel." + '(' + str(i) + ',' + str(j) + ',' + str(z) + ')')
-                shifted_grid[i, j, z, 0] = coordinates[0]
-                shifted_grid[i, j, z, 1] = coordinates[1]
+                shifted_grid[i, j, z, 1] = coordinates[0]
+                shifted_grid[i, j, z, 0] = coordinates[1]
                 shifted_grid[i, j, z, 2] = coordinates[2]
 
     # interpolation
