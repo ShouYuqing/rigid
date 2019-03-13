@@ -108,6 +108,10 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     sample_z = grid_sample(x, y, z, sample[:, :, :, 2], sample_num)#Y (10,10,10)
 
     sum_x = np.sum(flow[:, :, :, 1])
+    print(flow[:, :, :, 1])
+    print(flow[:, :, :, 0])
+    print(flow[:, :, :, 2])
+
     sum_y = np.sum(flow[:, :, :, 0])
     sum_z = np.sum(flow[:, :, :, 2])
 
@@ -154,6 +158,7 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     xx = np.arange(vol_size[1])
     yy = np.arange(vol_size[0])
     zz = np.arange(vol_size[2])
+    shifted_grid = np.stack((shifted_grid[:, :, :, 1], shifted_grid[:, :, :, 0], shifted_grid[:, :, :, 2]), 3)
     warp_seg = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], shifted_grid, method='nearest', bounds_error=False, fill_value=0)# rigid registration
 
     # CVPR
