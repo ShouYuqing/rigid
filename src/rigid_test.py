@@ -33,7 +33,7 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     :param nf_enc: number of encode
     :param nf_dec: number of decoder
     :param model_name: load model's name
-    :param sample_num: sample grid's dimension, this can be changed to imrpove the performance
+    :param sample_num: sample grid's dimension, this can be changed to improve the performance
     :param grid_dimension: R(in the formula)'s dimension
     :return: None
     """
