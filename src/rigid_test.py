@@ -169,7 +169,6 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     fig4, axs4 = nplt.slices(atlas_seg[130, :, :], do_colorbars=True)
     fig4.savefig('atlas_seg130.png')
 
-
 def grid_sample(x, y, z, grid, sample_num):
     """
     sample the grid with x y z index grid
