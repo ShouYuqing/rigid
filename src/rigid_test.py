@@ -169,13 +169,6 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     fig4, axs4 = nplt.slices(atlas_seg[130, :, :], do_colorbars=True)
     fig4.savefig('atlas_seg130.png')
 
-    #print(R)
-    #print(T)
-    #print("point (1, 1, 1) after registration:")
-    #print(np.dot(R, np.ones((4,1))) +  T.reshape(4,1))
-
-
-
 
 def grid_sample(x, y, z, grid, sample_num):
     """
@@ -193,16 +186,6 @@ def grid_sample(x, y, z, grid, sample_num):
             for m in np.arange(sample_num):
                 sampled_grid[i, j, m] = grid[x[i, j, m], y[i, j, m], z[i, j, m]]
     return sampled_grid
-
-    #sample = np.stack((sample[:, :, :, 1], sample[:, :, :, 0], sample[:, :, :, 2]), 3)
-    #warp_seg = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], sample, method='nearest', bounds_error=False, fill_value=0)
-
-    # sample the X(add coordinates)
-
-    #flow_sample = interpn((x, y, z), X_seg[0, :, :, :, 0], flow, method = 'nearest', bounds_error = False, fill_value = 0)
-
-    # sample the Y(Warped_X)
-    # # (3,10,10,10) grid = np.rollaxis(np.array(np.meshgrid(xx, yy, zz)), 0, 4)
 
 if __name__ == "__main__":
     test(sys.argv[1], sys.argv[2])
