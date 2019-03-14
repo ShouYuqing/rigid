@@ -24,7 +24,7 @@ import neuron.layers as nrn_layers
 import neuron.utils as util
 import neuron.plot as nplt
 
-def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=[32,32,32,32,32,16,16,3], model_name = "vm2_cc", sample_num = 10, grid_dimension = 4):
+def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=[32,32,32,32,32,16,16,3], model_name = "vm2_cc", sample_num = 20, grid_dimension = 4):
     """
     Test of the rigid registration by calculating the dice score between the atlas's segmentation and warped image's segmentation
     :param iter_num: iteration number
@@ -134,7 +134,7 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
                 shifted_grid[i, j, z, 1] = coordinates[0]
                 shifted_grid[i, j, z, 0] = coordinates[1]
                 shifted_grid[i, j, z, 2] = coordinates[2]
-    
+
     # interpolation
     xx = np.arange(vol_size[1])
     yy = np.arange(vol_size[0])
