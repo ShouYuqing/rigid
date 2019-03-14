@@ -66,7 +66,7 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     # get flow
     flow = pred[1][0, :, :, :, :]
 
-    # Compute A(all about coordinate computation)
+    # sample coordinate(sample_num * sample_num * sample_num)
     x = np.linspace(0, (vol_size[0]/sample_num)*(sample_num-1), sample_num)
     x = x.astype(np.int32)
     y = np.linspace(0, (vol_size[1]/sample_num)*(sample_num-1), sample_num)
@@ -172,7 +172,7 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
 
 def grid_sample(x, y, z, grid, sample_num):
     """
-    sample the grid with x y z index
+    sample the grid with x y z index grid
     :param x: x index grid
     :param y: y index grid
     :param z: z index grid
