@@ -82,7 +82,7 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     x_flow = np.arange(vol_size[0])
     y_flow = np.arange(vol_size[1])
     z_flow = np.arange(vol_size[2])
-    grid = np.rollaxis(np.array((np.meshgrid(y_flow, x_flow, z_flow))), 0, 4)#original coordinate
+    grid = np.rollaxis(np.array((np.meshgrid(y_flow, x_flow, z_flow))), 0, 4)# original coordinate
     grid_x = grid_sample(x, y, z, grid[:, :, :, 1], sample_num)
     grid_y = grid_sample(x, y, z, grid[:, :, :, 0], sample_num)
     grid_z = grid_sample(x, y, z, grid[:, :, :, 2], sample_num)#X (10,10,10)
