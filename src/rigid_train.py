@@ -99,6 +99,9 @@ def train(model_dir, gpu_id, lr, n_iterations, alpha, image_sigma, model_save_it
         # get_data
         X = next(train_example_gen)[0]
 
+        # transform X data using the function
+
+
         # train and compute loss between the atlas_vol and warped_X
         with tf.device(gpu):
             train_loss = model.train_on_batch([X, atlas_vol], [atlas_vol, zeros])
