@@ -49,33 +49,19 @@ def rotate_img(img, vol_size, theta = 0, beta = 0 ,omega = 0):
     grid = np.rollaxis(np.array(np.meshgrid(x, y, z)), 0, 4)
 
     # rotated grid
-    if theta != 0:
-        for i in np.arange(vol_size[0]):
-            for j in np.arange(vol_size[1]):
-                for z in np.arange(vol_size[2]):
+    for i in np.arange(vol_size[0]):
+        for j in np.arange(vol_size[1]):
+            for z in np.arange(vol_size[2]):
+                if theta != 0:
                     coordinates = np.dot(T2, np.dot(TX, np.dot(T1, np.array([grid[i, j, z, 1], grid[i, j, z, 0], grid[i, j, z, 2], 1]).reshape(4, 1))))  # (4, 1)
-                    print(str(coordinates[0]) + ',' + str(coordinates[1]) + ',' + str(coordinates[2]))
-                    grid[i, j, z, 1] = coordinates[0]
-                    grid[i, j, z, 0] = coordinates[1]
-                    grid[i, j, z, 2] = coordinates[2]
-
-    if beta != 0:
-        for i in np.arange(vol_size[0]):
-            for j in np.arange(vol_size[1]):
-                for z in np.arange(vol_size[2]):
+                if beta != 0:
                     coordinates = np.dot(T2, np.dot(TY, np.dot(T1, np.array([grid[i, j, z, 1], grid[i, j, z, 0], grid[i, j, z, 2], 1]).reshape(4, 1))))  # (4, 1)
-                    grid[i, j, z, 1] = coordinates[0]
-                    grid[i, j, z, 0] = coordinates[1]
-                    grid[i, j, z, 2] = coordinates[2]
-
-    if omega != 0:
-        for i in np.arange(vol_size[0]):
-            for j in np.arange(vol_size[1]):
-                for z in np.arange(vol_size[2]):
+                if omega != 0:
                     coordinates = np.dot(T2, np.dot(TZ, np.dot(T1, np.array([grid[i, j, z, 1], grid[i, j, z, 0], grid[i, j, z, 2], 1]).reshape(4, 1))))  # (4, 1)
-                    grid[i, j, z, 1] = coordinates[0]
-                    grid[i, j, z, 0] = coordinates[1]
-                    grid[i, j, z, 2] = coordinates[2]
+                print(str(coordinates[0]) + ',' + str(coordinates[1]) + ',' + str(coordinates[2]))
+                grid[i, j, z, 1] = coordinates[0]
+                grid[i, j, z, 0] = coordinates[1]
+                grid[i, j, z, 2] = coordinates[2]
 
     # interpolation
     xx = np.arange(vol_size[1])
