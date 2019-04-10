@@ -4,6 +4,8 @@ Self-developed code for rigid registration during the research with [Dr.Sabuncu]
 
 The code is currently in development.
 
+## Data Augmentation
+
 ## 3D-UNet
 
 A 3D-UNet featured with unsampling and dowsampling layer is used to learn the shift flow between two different images.
