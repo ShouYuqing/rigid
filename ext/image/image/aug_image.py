@@ -6,10 +6,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.interpolate import interpn
 
-def rotate_img(img, vol_size, theta, beta ,omega):
+def rotate_img(img, vol_size, theta = 0, beta = 0 ,omega = 0):
     """
     3D image rotation in three axis
-    if do not want rotate: value equals 360
     :param img: original image
     :param vol_size: grid's size
     :param theta: first dimension rotation
@@ -69,7 +68,7 @@ if __name__ == "__main__":
     img = np.load("atlas_norm.npz")
     img = img["vol"]
     print(img.shape)
-    rotated_img = rotate_img(img, vol_size=(160,192,224), theta = 20, beta = 0, omega = 0)
+    rotated_img = rotate_img(img, vol_size=(160,192,224), theta = 20)
     plt.figure()
     plt.imshow(rotated_img[80, :, :])
     plt.savefig("rotated.png")
