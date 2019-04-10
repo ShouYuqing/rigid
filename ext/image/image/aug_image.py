@@ -35,11 +35,11 @@ def rotate_img(img, vol_size, theta = 0, beta = 0 ,omega = 0):
     T1 = np.array([[1, 0, 0, 0],
                   [0 ,1, 0, 0],
                   [0, 0, 1, 0],
-                  [-int(vol_size[0]/2), -int(vol_size[1]/2), -int(vol_size[2]/2), 1]])
+                  [-int(vol_size[1]/2), -int(vol_size[0]/2), -int(vol_size[2]/2), 1]])
     T2 = np.array([[1, 0, 0, 0],
                   [0 ,1, 0, 0],
                   [0, 0, 1, 0],
-                  [int(vol_size[0]/2), int(vol_size[1]/2), int(vol_size[2]/2), 1]])
+                  [int(vol_size[1]/2), int(vol_size[0]/2), int(vol_size[2]/2), 1]])
 
     # construct grid
     x = np.arange(vol_size[1])
@@ -54,7 +54,6 @@ def rotate_img(img, vol_size, theta = 0, beta = 0 ,omega = 0):
                 grid[i, j, z, 1] = coordinates[0]
                 grid[i, j, z, 0] = coordinates[1]
                 grid[i, j, z, 2] = coordinates[2]
-
     # interpolation
     xx = np.arange(vol_size[1])
     yy = np.arange(vol_size[0])
