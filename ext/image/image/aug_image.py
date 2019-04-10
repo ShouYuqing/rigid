@@ -63,7 +63,7 @@ def rotate_img(img, vol_size, theta = 0, beta = 0 ,omega = 0):
         for i in np.arange(vol_size[0]):
             for j in np.arange(vol_size[1]):
                 for z in np.arange(vol_size[2]):
-                    coordinates = np.dot(T2, np.dot(TY, np.dot(T1, np.array([i, j, z, 1]).reshape(4, 1))))  # (4, 1)
+                    coordinates = np.dot(T2, np.dot(TY, np.dot(T1, np.array([grid[i, j, z, 1], grid[i, j, z, 0], grid[i, j, z, 2], 1]).reshape(4, 1))))  # (4, 1)
                     grid[i, j, z, 1] = coordinates[0]
                     grid[i, j, z, 0] = coordinates[1]
                     grid[i, j, z, 2] = coordinates[2]
@@ -72,7 +72,7 @@ def rotate_img(img, vol_size, theta = 0, beta = 0 ,omega = 0):
         for i in np.arange(vol_size[0]):
             for j in np.arange(vol_size[1]):
                 for z in np.arange(vol_size[2]):
-                    coordinates = np.dot(T2, np.dot(TZ, np.dot(T1, np.array([i, j, z, 1]).reshape(4, 1))))  # (4, 1)
+                    coordinates = np.dot(T2, np.dot(TZ, np.dot(T1, np.array([grid[i, j, z, 1], grid[i, j, z, 0], grid[i, j, z, 2], 1]).reshape(4, 1))))  # (4, 1)
                     grid[i, j, z, 1] = coordinates[0]
                     grid[i, j, z, 0] = coordinates[1]
                     grid[i, j, z, 2] = coordinates[2]
