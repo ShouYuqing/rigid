@@ -25,6 +25,10 @@ import datagenerators
 import networks
 import losses
 
+# project
+sys.path.append('../ext/image')
+from image import aug_image
+
 ## some data prep
 # Volume size used in our experiments. Please change to suit your data.
 vol_size = (160, 192, 224)
