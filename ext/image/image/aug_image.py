@@ -12,9 +12,9 @@ def rotate_img(img, vol_size, theta, beta ,omega):
     if do not want rotate: value equals 360
     :param img: original image
     :param vol_size: grid's size
-    :param theta:
-    :param beta:
-    :param omega:
+    :param theta: first dimension rotation
+    :param beta: second dimension rotation
+    :param omega: third dimension rotation
     :return: rotated image
     """
     # construct the transform matrix used for rotation
@@ -50,7 +50,8 @@ def rotate_img(img, vol_size, theta, beta ,omega):
     for i in np.arange(vol_size[0]):
         for j in np.arange(vol_size[1]):
             for z in np.arange(vol_size[2]):
-                coordinates = np.dot(T2, np.dot(TZ, np.dot(TY, np.dot(TX, np.dot(T1, np.array([i, j, z, 1]).reshape(4, 1))))))
+                coordinates = np.dot(T2, np.dot(TX, np.dot(T1, np.array([i, j, z, 1]).reshape(4, 1))))  # (4, 1)
+                print(str(coordinates[0]) + ',' + str(coordinates[1]) + ',' + str(coordinates[2]))
                 grid[i, j, z, 1] = coordinates[0]
                 grid[i, j, z, 0] = coordinates[1]
                 grid[i, j, z, 2] = coordinates[2]
@@ -60,7 +61,7 @@ def rotate_img(img, vol_size, theta, beta ,omega):
     yy = np.arange(vol_size[0])
     zz = np.arange(vol_size[2])
     transformed_grid = np.stack((grid[:, :, :, 1], grid[:, :, :, 0], grid[:, :, :, 2]), 3)  # notice: the shifted_grid is reverse in x and y, so this step is used for making it back.
-    post_img = interpn((yy, xx, zz), img[:, :, :], transformed_grid, method='linear', bounds_error=False,
+    post_img = interpn((yy, xx, zz), img[:, :, :], transformed_grid, method='nearest', bounds_error=False,
                        fill_value=0)
     return post_img
 
@@ -68,7 +69,7 @@ if __name__ == "__main__":
     img = np.load("atlas_norm.npz")
     img = img["vol"]
     print(img.shape)
-    rotated_img = rotate_img(img, vol_size=(160,192,224), theta = 20, beta = 20, omega = 20)
+    rotated_img = rotate_img(img, vol_size=(160,192,224), theta = 20, beta = 0, omega = 0)
     plt.figure()
     plt.imshow(rotated_img[80, :, :])
     plt.savefig("rotated.png")
