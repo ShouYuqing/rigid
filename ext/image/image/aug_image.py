@@ -64,7 +64,7 @@ def rotate_img(img, vol_size, theta = 0, beta = 0 ,omega = 0):
     yy = np.arange(vol_size[0])
     zz = np.arange(vol_size[2])
     transformed_grid = np.stack((grid[:, :, :, 1], grid[:, :, :, 0], grid[:, :, :, 2]), 3)  # notice: the shifted_grid is reverse in x and y, so this step is used for making it back.
-    post_img = interpn((yy, xx, zz), img[:, :, :], transformed_grid, method='nearest', bounds_error=False,
+    post_img = interpn((yy, xx, zz), img[:, :, :], transformed_grid, method='cubic', bounds_error=False,
                        fill_value=0)
     return post_img
 
