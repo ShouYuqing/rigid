@@ -7,14 +7,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.interpolate import interpn
 
+
 def rotate_img(img, vol_size, theta = 0, beta = 0 ,omega = 0):
     """
     3D image rotation in three axis
     :param img: original image
     :param vol_size: grid's size
-    :param theta: first dimension rotation
-    :param beta: second dimension rotation
-    :param omega: third dimension rotation
+    :param theta: x
+    :param beta: y
+    :param omega: z
     :return: rotated image
     """
     # construct the transform matrix used for rotation
@@ -52,16 +53,11 @@ def rotate_img(img, vol_size, theta = 0, beta = 0 ,omega = 0):
     for i in np.arange(vol_size[0]):
         for j in np.arange(vol_size[1]):
             for z in np.arange(vol_size[2]):
-                if theta != 0:
-                    coordinates = np.dot(T2, np.dot(TX, np.dot(T1, np.array([grid[i, j, z, 1], grid[i, j, z, 0], grid[i, j, z, 2], 1]).reshape(4, 1))))  # (4, 1)
-                if beta != 0:
-                    coordinates = np.dot(T2, np.dot(TY, np.dot(T1, np.array([grid[i, j, z, 1], grid[i, j, z, 0], grid[i, j, z, 2], 1]).reshape(4, 1))))  # (4, 1)
-                if omega != 0:
-                    coordinates = np.dot(T2, np.dot(TZ, np.dot(T1, np.array([grid[i, j, z, 1], grid[i, j, z, 0], grid[i, j, z, 2], 1]).reshape(4, 1))))  # (4, 1)
-                print(str(coordinates[0]) + ',' + str(coordinates[1]) + ',' + str(coordinates[2]))
-                grid[i, j, z, 1] = coordinates[0]
-                grid[i, j, z, 0] = coordinates[1]
-                grid[i, j, z, 2] = coordinates[2]
+                coordinates = np.dot(np.dot(np.dot(np.dot(np.dot(np.dot(np.dot(np.dot(np.dot(np.array([grid[i, j, z, 1], grid[i, j, z, 0], grid[i, j, z, 2], 1]).reshape(1, 4), T1), TX), T2)
+                                                                        , T1), TY), T2), T1), TZ), T2) # (1, 4)
+                grid[i, j, z, 1] = coordinates[0, 0]
+                grid[i, j, z, 0] = coordinates[0, 1]
+                grid[i, j, z, 2] = coordinates[0, 2]
 
     # interpolation
     xx = np.arange(vol_size[1])
@@ -76,10 +72,10 @@ if __name__ == "__main__":
     img = np.load("atlas_norm.npz")
     img = img["vol"]
     print(img.shape)
-    rotated_img = rotate_img(img, vol_size=(160,192,224), theta = 20)
+    rotated_img = rotate_img(img, vol_size=(160,192,224), beta = 20)
     plt.figure()
-    plt.imshow(rotated_img[80, :, :])
+    plt.imshow(rotated_img[:, 90, :])
     plt.savefig("rotated.png")
     plt.figure()
-    plt.imshow(img[80, :, :])
+    plt.imshow(img[:, 90, :])
     plt.savefig("origin.png")

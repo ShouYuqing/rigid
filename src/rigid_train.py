@@ -27,7 +27,7 @@ import losses
 
 # project
 sys.path.append('../ext/image')
-from image import aug_image
+from image.aug_image import rotate_img
 
 ## some data prep
 # Volume size used in our experiments. Please change to suit your data.
@@ -104,7 +104,8 @@ def train(model_dir, gpu_id, lr, n_iterations, alpha, image_sigma, model_save_it
         X = next(train_example_gen)[0]
 
         # transform X data using the function
-
+        ran_de =
+        X = rotate_img(X, vol_size=(160, 192, 224), beta=ran_de)
 
         # train and compute loss between the atlas_vol and warped_X
         with tf.device(gpu):
@@ -120,7 +121,6 @@ def train(model_dir, gpu_id, lr, n_iterations, alpha, image_sigma, model_save_it
         with tf.device(gpu):
             if (step % model_save_iter == 0) or step < 10:
                 model.save(os.path.join(model_dir, str(step) + '.h5'))
-
 
 def print_loss(step, training, train_loss):
     """
