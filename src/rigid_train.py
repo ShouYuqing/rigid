@@ -83,7 +83,7 @@ def train(model_dir, gpu_id, lr, n_iterations, alpha, image_sigma, model_save_it
         # miccai 2018 used xy indexing.
         #model = networks.unet(vol_size, nf_enc, nf_dec)
         model = networks.rigid_net(vol_size, nf_enc, nf_dec)
-        print(model.summary())
+        #print(model.summary())
 
         # compile
         model.compile(optimizer=Adam(lr=lr),
