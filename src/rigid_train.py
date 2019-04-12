@@ -104,7 +104,7 @@ def train(model_dir, gpu_id, lr, n_iterations, alpha, image_sigma, model_save_it
         X = next(train_example_gen)[0]
 
         # transform X data using the function
-        ran_de =
+        ran_de = np.random.uniform(low=0.0, high=10.0, size=(1,1))
         X = rotate_img(X, vol_size=(160, 192, 224), beta=ran_de)
 
         # train and compute loss between the atlas_vol and warped_X

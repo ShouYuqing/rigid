@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from scipy.interpolate import interpn
 
 
-def rotate_img(img, vol_size, theta = 0, beta = 0 ,omega = 0):
+def rotate_img(img, vol_size = (160,192,224), theta = 0, beta = 0 ,omega = 0):
     """
     3D image rotation in three axis
     :param img: original image
