@@ -5,6 +5,7 @@ Self-developed code for rigid registration during the research with [Dr.Sabuncu]
 The code is currently in development.
 
 ## Data Augmentation
+Rotate 3D image: /ext/image 
 
 ## 3D-UNet
 
