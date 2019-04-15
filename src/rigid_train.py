@@ -82,6 +82,7 @@ def train(model, model_dir, gpu_id, lr, n_iterations, reg_param, model_save_iter
     # in the experiments, we use image_2 as atlas
     model = networks.unet(vol_size, nf_enc, nf_dec)
 
+    # continue old training
     if (load_iter != 0):
         model.load_weights('/home/ys895/rigid_model/' + str(load_iter) + '.h5')
 
@@ -110,6 +111,7 @@ def train(model, model_dir, gpu_id, lr, n_iterations, reg_param, model_save_iter
         beta = np.random.uniform(low=0.0, high=5.0, size=None)
         omega = np.random.uniform(low=0.0, high=5.0, size=None)
         X = rotate_img(X[0, :, :, :, 0], vol_size = (160,192,224), theta = theta, beta = beta,omega = omega)
+        X = X.reshape((1,) + X.shape + (1,))
 
         # train
         train_loss = model.train_on_batch([X, atlas_vol], [atlas_vol, zero_flow])
@@ -146,6 +148,7 @@ def print_loss(step, training, train_loss):
 if __name__ == "__main__":
     """
     specify:
+    --gpu
     --iters
     --load_iters
     """
