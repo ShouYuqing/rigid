@@ -25,7 +25,8 @@ import datagenerators
 import networks
 import losses
 sys.path.append('../ext/image')
-from image.aug_image import rotate_img 
+from image.aug_image import rotate_img
+
 
 ## some data prep
 # Volume size used in our experiments. Please change to suit your data.
@@ -44,7 +45,7 @@ atlas = np.load('../data/atlas_norm.npz')
 atlas_vol = atlas['vol'][np.newaxis, ..., np.newaxis]
 
 
-def train(model, model_dir, gpu_id, lr, n_iterations, reg_param, model_save_iter, batch_size=1):
+def train(model, model_dir, gpu_id, lr, n_iterations, reg_param, model_save_iter, batch_size=1, load_iter):
     """
     model training function
     :param model: either vm1 or vm2 (based on CVPR 2018 paper)
@@ -101,7 +102,10 @@ def train(model, model_dir, gpu_id, lr, n_iterations, reg_param, model_save_iter
         X = next(train_example_gen)[0]
 
         # data augmentation
-
+        theta = np.random.uniform(low=0.0, high=5.0, size=None)
+        beta = np.random.uniform(low=0.0, high=5.0, size=None)
+        omega = np.random.uniform(low=0.0, high=5.0, size=None)
+        X = rotate_img(X, vol_size = (160,192,224), theta = theta, beta = beta,omega = omega)
 
         # train
         train_loss = model.train_on_batch([X, atlas_vol], [atlas_vol, zero_flow])
@@ -147,6 +151,9 @@ if __name__ == "__main__":
     parser.add_argument("--iters", type=int,
                         dest="n_iterations", default=150000,
                         help="number of iterations")
+    parser.add_argument("--load_iters", type=int,
+                        dest="load_iter", default=0,
+                        help="number of iterations")
     parser.add_argument("--lambda", type=float,
                         dest="reg_param", default=1.0,
                         help="regularization parameter")
@@ -154,7 +161,7 @@ if __name__ == "__main__":
                         dest="model_save_iter", default=100,
                         help="frequency of model saves")
     parser.add_argument("--model_dir", type=str,
-                        dest="model_dir", default='../models/',
+                        dest="model_dir", default='../models/rigid_model/',
                         help="models folder")
 
     args = parser.parse_args()
