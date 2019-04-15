@@ -108,9 +108,11 @@ def train(model, model_dir, gpu_id, lr, n_iterations, reg_param, model_save_iter
 
         # data augmentation
         theta = np.random.uniform(low=0.0, high=5.0, size=None)
-        beta = np.random.uniform(low=0.0, high=5.0, size=None)
-        omega = np.random.uniform(low=0.0, high=5.0, size=None)
-        X = rotate_img(X[0, :, :, :, 0], vol_size = (160,192,224), theta = theta, beta = beta,omega = omega)
+        beta = 0
+        omega = 0
+        #beta = np.random.uniform(low=0.0, high=5.0, size=None)
+        #omega = np.random.uniform(low=0.0, high=5.0, size=None)
+        X = rotate_img(X[0, :, :, :, 0], vol_size = (160,192,224), theta = theta, beta = beta, omega = omega)
         X = X.reshape((1,) + X.shape + (1,))
 
         # train
