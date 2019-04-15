@@ -109,7 +109,7 @@ def train(model, model_dir, gpu_id, lr, n_iterations, reg_param, model_save_iter
         theta = np.random.uniform(low=0.0, high=5.0, size=None)
         beta = np.random.uniform(low=0.0, high=5.0, size=None)
         omega = np.random.uniform(low=0.0, high=5.0, size=None)
-        X = rotate_img(X, vol_size = (160,192,224), theta = theta, beta = beta,omega = omega)
+        X = rotate_img(X[0, :, :, :, 0], vol_size = (160,192,224), theta = theta, beta = beta,omega = omega)
 
         # train
         train_loss = model.train_on_batch([X, atlas_vol], [atlas_vol, zero_flow])
