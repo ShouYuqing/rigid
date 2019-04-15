@@ -81,6 +81,10 @@ def train(model, model_dir, gpu_id, lr, n_iterations, reg_param, model_save_iter
     # in the CVPR layout, the model takes in [image_1, image_2] and outputs [warped_image_1, flow]
     # in the experiments, we use image_2 as atlas
     model = networks.unet(vol_size, nf_enc, nf_dec)
+
+    if (load_iter != 0):
+        model.load_weights('/home/ys895/rigid_model/' + str(load_iter) + '.h5')
+
     model.compile(optimizer=Adam(lr=lr),
                   loss=[losses.cc3D(), losses.gradientLoss('l2')],
                   loss_weights=[1.0, reg_param])
@@ -112,12 +116,12 @@ def train(model, model_dir, gpu_id, lr, n_iterations, reg_param, model_save_iter
         if not isinstance(train_loss, list):
             train_loss = [train_loss]
 
-        # print the loss.
+        # print the loss
         print_loss(step, 1, train_loss)
 
         # save model
         if step % model_save_iter == 0:
-            model.save(os.path.join(model_dir, str(step) + '.h5'))
+            model.save(os.path.join(model_dir, str(load_iter + step) + '.h5'))
 
 
 def print_loss(step, training, train_loss):
@@ -140,6 +144,11 @@ def print_loss(step, training, train_loss):
 
 
 if __name__ == "__main__":
+    """
+    specify:
+    --iters
+    --load_iters
+    """
     parser = ArgumentParser()
     parser.add_argument("--model", type=str, dest="model",
                         choices=['vm1', 'vm2'], default='vm2',
@@ -161,7 +170,7 @@ if __name__ == "__main__":
                         dest="model_save_iter", default=100,
                         help="frequency of model saves")
     parser.add_argument("--model_dir", type=str,
-                        dest="model_dir", default='../models/rigid_model/',
+                        dest="model_dir", default='/home/ys895/rigid_model/',
                         help="models folder")
 
     args = parser.parse_args()
