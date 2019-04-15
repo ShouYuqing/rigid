@@ -45,7 +45,7 @@ atlas = np.load('../data/atlas_norm.npz')
 atlas_vol = atlas['vol'][np.newaxis, ..., np.newaxis]
 
 
-def train(model, model_dir, gpu_id, lr, n_iterations, reg_param, model_save_iter, batch_size=1, load_iter):
+def train(model, model_dir, gpu_id, lr, n_iterations, reg_param, model_save_iter, load_iter, batch_size=1):
     """
     model training function
     :param model: either vm1 or vm2 (based on CVPR 2018 paper)
