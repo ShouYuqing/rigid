@@ -14,6 +14,7 @@ import numpy as np
 import keras
 from keras.backend.tensorflow_backend import set_session
 from scipy.interpolate import interpn
+import matplotlib.pyplot as plt
 
 # project
 sys.path.append('../ext/medipy-lib')
@@ -91,7 +92,8 @@ def test(gpu_id, iter_num,
         theta = 1
         X_seg = rotate_img(X_seg[0, :, :, :, 0], theta = theta, beta = 0, omega = 0)
         X_vol = rotate_img(X_vol[0, :, :, :, 0], theta = theta, beta = 0, omega = 0)
-
+        X_seg = X_seg.reshape((1,) + X_seg.shape + (1,))
+        X_vol = X_vol.reshape((1,) + X_vol.shape + (1,))
         # predict transform
         with tf.device(gpu):
             pred = diff_net.predict([X_vol, atlas_vol])
@@ -100,10 +102,9 @@ def test(gpu_id, iter_num,
         if compute_type == 'CPU':
             flow = pred[0, :, :, :, :]
             warp_seg = util.warp_seg(X_seg, flow, grid=grid, xx=xx, yy=yy, zz=zz)
-
         else:  # GPU
             warp_seg = nn_trf_model.predict([X_seg, pred])[0, ..., 0]
-
+            warp_vol = nn_trf_model.predict([X_vol, pred])[0, ..., 0]
         # compute Volume Overlap (Dice)
         dice_vals[:, k] = dice(warp_seg, atlas_seg, labels=good_labels)
         print('%3d %5.3f %5.3f' % (k, np.mean(dice_vals[:, k]), np.mean(np.mean(dice_vals[:, :k + 1]))))
@@ -111,6 +112,10 @@ def test(gpu_id, iter_num,
         if save_file is not None:
             sio.savemat(save_file, {'dice_vals': dice_vals, 'labels': good_labels})
 
+        # save volume fig
+        plt.figure()
+        plt.imshow(warp_vol[0, :, 90, :, 0])
+        plt.savefig("warp_vol.png")
 
 if __name__ == "__main__":
     """
