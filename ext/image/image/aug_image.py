@@ -1,5 +1,5 @@
 """
-3D operation
+3D operation&plot lib
 """
 
 # lib
@@ -55,6 +55,7 @@ def rotate_img(img, vol_size = (160,192,224), theta = 0, beta = 0 ,omega = 0):
     y = np.arange(vol_size[0])
     z = np.arange(vol_size[2])
     grid = np.rollaxis(np.array(np.meshgrid(x, y, z)), 0, 4)
+    orig_grid = grid
 
     # rotated grid
     for i in np.arange(vol_size[0]):
@@ -73,6 +74,9 @@ def rotate_img(img, vol_size = (160,192,224), theta = 0, beta = 0 ,omega = 0):
     transformed_grid = np.stack((grid[:, :, :, 1], grid[:, :, :, 0], grid[:, :, :, 2]), 3)  # notice: the grid is reverse in x and y, so this step is used for making it back.
     post_img = interpn((yy, xx, zz), img[:, :, :], transformed_grid, method='nearest', bounds_error=False,
                    fill_value=0)
+    plot_grid(orig_grid[:, 90, :, 1], orig_grid[:, 90, :, 0], orig_grid[:, 90, :, 1] - grid[:, 90, :, 1])
+    print(orig_grid[:, 90, :, 1])
+    print(orig_grid[:, 90, :, 0])
     return post_img
 
 
@@ -84,16 +88,37 @@ def plot_grid(X, Y, Z):
     :param Z: Z grid
     :return: None
     """
+    fig = plt.figure()
+    ax = fig.gca(projection='3d')
 
+    # Plot the surface.
+    surf = ax.plot_surface(X, Y, Z, cmap=cm.coolwarm,
+                           linewidth=0, antialiased=False)
+
+    # Customize the z axis.
+    ax.set_zlim(-2, 2)
+    ax.zaxis.set_major_locator(LinearLocator(10))
+    ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
+
+    # Add a color bar which maps values to colors.
+    fig.colorbar(surf, shrink=0.5, aspect=5)
+    plt.show()
 
 
 if __name__ == "__main__":
+    # test for rotate_img function
+    #img = np.load("atlas_norm.npz")
+    #img = img["vol"]
+    #rotated_img = rotate_img(img, vol_size=(160,192,224), beta = 20)
+    #plt.figure()
+    #plt.imshow(rotated_img[:, 90, :])
+    #plt.savefig("rotated.png")
+    #plt.figure()
+    #plt.imshow(img[:, 90, :])
+    #plt.savefig("origin.png")
+
+    # test for plot_grid function
     img = np.load("atlas_norm.npz")
     img = img["vol"]
-    rotated_img = rotate_img(img, vol_size=(160,192,224), beta = 20)
-    plt.figure()
-    plt.imshow(rotated_img[:, 90, :])
-    plt.savefig("rotated.png")
-    plt.figure()
-    plt.imshow(img[:, 90, :])
-    plt.savefig("origin.png")
+    rotated_img = rotate_img(img, vol_size=(160, 192, 224), beta=5)
+
