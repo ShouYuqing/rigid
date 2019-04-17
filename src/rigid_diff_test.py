@@ -95,7 +95,6 @@ def test(gpu_id, iter_num,
         beta = 4
         omega = 0
         X_seg = rotate_img(X_seg[0, :, :, :, 0], theta = theta, beta = beta, omega = omega)
-        print(X_seg.shape)
         X_vol = rotate_img(X_vol[0, :, :, :, 0], theta = theta, beta = beta, omega = omega)
         X_seg = X_seg.reshape((1,) + X_seg.shape + (1,))
         X_vol = X_vol.reshape((1,) + X_vol.shape + (1,))
@@ -168,8 +167,6 @@ def test(gpu_id, iter_num,
 
             X = X.reshape((sample_num * sample_num * sample_num, grid_dimension))
             Y = Y.reshape((sample_num * sample_num * sample_num, grid_dimension))
-            print(X)
-            print(Y)
             R = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(X), X)), np.transpose(X)), Y)  # R
             print(R)
             # build new grid(Use R to do the spatial transform)
