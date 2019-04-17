@@ -46,7 +46,7 @@ def test(gpu_id, iter_num,
          nf_dec=[32, 32, 32, 32, 16, 3],
          save_file=None):
     """
-
+    test by segmentation, compute dice between atlas_seg and warp_seg
     :param gpu_id: gpu id
     :param iter_num: specify the model to read
     :param compute_type: CPU/GPU
@@ -112,7 +112,7 @@ def test(gpu_id, iter_num,
         if save_file is not None:
             sio.savemat(save_file, {'dice_vals': dice_vals, 'labels': good_labels})
 
-        # save warped volume fig
+        # plot warped volume fig
         num_slice = 90
         plt.figure()
         plt.subplot(1,2,1)
