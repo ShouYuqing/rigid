@@ -39,7 +39,7 @@ atlas_vol = atlas['vol'][np.newaxis, ..., np.newaxis]
 atlas_seg = atlas['seg']
 
 
-def test(gpu_id, iter_num,
+def test(gpu_id, iter_num, theta,
          compute_type='GPU',  # GPU or CPU
          vol_size=(160, 192, 224),
          nf_enc=[16, 32, 32, 32],
@@ -90,7 +90,6 @@ def test(gpu_id, iter_num,
         X_vol, X_seg = datagenerators.load_example_by_name(vol_name, seg_name)
         orig_vol = X_vol
 
-        theta = 5
         X_seg = rotate_img(X_seg[0, :, :, :, 0], theta = theta, beta = 0, omega = 0)
         X_vol = rotate_img(X_vol[0, :, :, :, 0], theta = theta, beta = 0, omega = 0)
         X_seg = X_seg.reshape((1,) + X_seg.shape + (1,))
@@ -129,5 +128,6 @@ if __name__ == "__main__":
     """
     arg1: gpu id
     arg2: number of iteration
+    arg3: theta
     """
-    test(sys.argv[1], sys.argv[2])
+    test(sys.argv[1], sys.argv[2], sys.argv[3])
