@@ -119,8 +119,7 @@ def test(gpu_id, iter_num,
 
         plt.figure()
         plt.subplot(1, 3, 1)
-        print(orig_vol.shape)
-        plt.figure(orig_vol[0, :, num_slice, :, 0])
+        plt.imshow(orig_vol[0, :, num_slice, :, 0])
         plt.subplot(1, 3, 2)
         plt.imshow(X_vol[0, :, num_slice, :, 0])
         plt.subplot(1, 3, 3)
