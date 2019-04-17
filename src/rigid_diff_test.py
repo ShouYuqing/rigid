@@ -98,6 +98,9 @@ def test(gpu_id, iter_num,
         X_seg = X_seg.reshape((1,) + X_seg.shape + (1,))
         X_vol = X_vol.reshape((1,) + X_vol.shape + (1,))
 
+        sample_num = 10
+        grid_dimension = 4
+
         # predict transform
         with tf.device(gpu):
             pred = diff_net.predict([X_vol, atlas_vol])
@@ -107,7 +110,7 @@ def test(gpu_id, iter_num,
             flow = pred[0, :, :, :, :]
             warp_seg = util.warp_seg(X_seg, flow, grid=grid, xx=xx, yy=yy, zz=zz)
         else:  # GPU
-            sample_num = 10
+
             flow = pred[0, :, :, :, :]
 
             # sample coordinate(sample_num * sample_num * sample_num)
