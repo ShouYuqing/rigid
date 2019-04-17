@@ -91,8 +91,8 @@ def test(gpu_id, iter_num,
         X_vol, X_seg = datagenerators.load_example_by_name(vol_name, seg_name)
         orig_vol = X_vol
 
-        theta = 4
-        beta = 0
+        theta = 0
+        beta = 4
         omega = 0
         X_seg = rotate_img(X_seg[0, :, :, :, 0], theta = theta, beta = beta, omega = omega)
         X_vol = rotate_img(X_vol[0, :, :, :, 0], theta = theta, beta = beta, omega = omega)
@@ -167,6 +167,8 @@ def test(gpu_id, iter_num,
 
             X = X.reshape((sample_num * sample_num * sample_num, grid_dimension))
             Y = Y.reshape((sample_num * sample_num * sample_num, grid_dimension))
+            print(X)
+            print(Y)
             R = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(X), X)), np.transpose(X)), Y)  # R
             print(R)
             # build new grid(Use R to do the spatial transform)
