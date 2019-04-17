@@ -74,10 +74,6 @@ def rotate_img(img, vol_size = (160,192,224), theta = 0, beta = 0 ,omega = 0):
     transformed_grid = np.stack((grid[:, :, :, 1], grid[:, :, :, 0], grid[:, :, :, 2]), 3)  # notice: the grid is reverse in x and y, so this step is used for making it back.
     post_img = interpn((yy, xx, zz), img[:, :, :], transformed_grid, method='nearest', bounds_error=False,
                    fill_value=0)
-    plot_grid(orig_grid[:, 90, :, 1], orig_grid[:, 90, :, 0], orig_grid[:, 90, :, 1] - grid[:, 90, :, 1])
-    print(orig_grid[:, 90, :, 1])
-    print(orig_grid[:, 90, :, 0])
-    return post_img
 
 
 def plot_grid(X, Y, Z):
