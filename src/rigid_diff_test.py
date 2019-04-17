@@ -89,8 +89,8 @@ def test(gpu_id, iter_num,
         X_vol, X_seg = datagenerators.load_example_by_name(vol_name, seg_name)
 
         theta = 1
-        X_seg = rotate_img(X_seg[0, :, :, :, 0], theta = theta, beta = 0, omeg = 0)
-        X_vol = rotate_img(X_vol[0, :, :, :, 0], theta = theta, beta = 0, omeg = 0)
+        X_seg = rotate_img(X_seg[0, :, :, :, 0], theta = theta, beta = 0, omega = 0)
+        X_vol = rotate_img(X_vol[0, :, :, :, 0], theta = theta, beta = 0, omega = 0)
 
         # predict transform
         with tf.device(gpu):
