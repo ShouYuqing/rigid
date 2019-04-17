@@ -99,8 +99,8 @@ def train(model_dir, gpu_id, lr, n_iterations, alpha, image_sigma, model_save_it
         X = next(train_example_gen)[0]
 
         # data augmentation
-        theta = np.random.uniform(low=0.0, high=5.0, size=None)
-        beta = 0
+        theta = 0
+        beta = np.random.uniform(low=0.0, high=5.0, size=None)
         omega = 0
         # beta = np.random.uniform(low=0.0, high=5.0, size=None)
         # omega = np.random.uniform(low=0.0, high=5.0, size=None)

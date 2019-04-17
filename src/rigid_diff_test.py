@@ -90,9 +90,9 @@ def test(gpu_id, iter_num,
         X_vol, X_seg = datagenerators.load_example_by_name(vol_name, seg_name)
         orig_vol = X_vol
 
-        theta = 4
-        X_seg = rotate_img(X_seg[0, :, :, :, 0], theta = theta, beta = 0, omega = 0)
-        X_vol = rotate_img(X_vol[0, :, :, :, 0], theta = theta, beta = 0, omega = 0)
+        beta = 4
+        X_seg = rotate_img(X_seg[0, :, :, :, 0], theta = 0, beta = beta, omega = 0)
+        X_vol = rotate_img(X_vol[0, :, :, :, 0], theta = 0, beta = beta, omega = 0)
         X_seg = X_seg.reshape((1,) + X_seg.shape + (1,))
         X_vol = X_vol.reshape((1,) + X_vol.shape + (1,))
 
