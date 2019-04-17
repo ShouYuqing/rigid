@@ -115,6 +115,7 @@ def test(gpu_id, iter_num, theta,
 
         # specify slice
         num_slice = 90
+
         plt.figure()
         plt.subplot(1, 3, 1)
         plt.figure(orig_vol[0, :, num_slice, :, 0])
