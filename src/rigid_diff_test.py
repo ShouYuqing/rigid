@@ -195,7 +195,7 @@ def test(gpu_id, iter_num,
                                fill_value=0)  # rigid registration
 
         # compute Volume Overlap (Dice)
-        dice_vals[:, k] = dice(warp_seg, X_seg, labels=good_labels)
+        dice_vals[:, k] = dice(warp_seg, X_seg[0, :, :, :, 0], labels=good_labels)
         print('%3d %5.3f %5.3f' % (k, np.mean(dice_vals[:, k]), np.mean(np.mean(dice_vals[:, :k + 1]))))
 
         if save_file is not None:
