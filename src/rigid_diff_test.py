@@ -113,13 +113,14 @@ def test(gpu_id, iter_num,
             sio.savemat(save_file, {'dice_vals': dice_vals, 'labels': good_labels})
 
         # save warped volume fig
+        num_slice = 90
         plt.figure()
         plt.subplot(1,2,1)
-        plt.imshow(X_vol[0, :, :, :, 0])
+        plt.imshow(X_vol[0, :, num_slice, :, 0])
         #plt.savefig("X_vol" + str(k) + ".png")
         plt.subplot(1,2,2)
-        plt.imshow(warp_vol[:, 90, :])
-        plt.savefig("img" + str(k) + ".png")
+        plt.imshow(warp_vol[:, num_slice, :])
+        plt.savefig("slice"+ str(num_slice) + '_' + str(k) + ".png")
 
 if __name__ == "__main__":
     """
