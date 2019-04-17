@@ -158,7 +158,7 @@ def test(gpu_id, iter_num,
                 for j in np.arange(sample_num):
                     for z in np.arange(sample_num):
                         Y[i, j, z, :] = np.array([sample_x[i, j, z], sample_y[i, j, z], sample_z[i, j, z], 1])
-                        Y[i, j, z, :] = Y[i, j, z, :] - T  # amend: Y` = Y - T
+                        Y[i, j, z, :] = Y[i, j, z, :] - np.array([ave_x, ave_y, ave_z, 0])  # amend: Y` = Y - T
 
             for i in np.arange(sample_num):
                 for j in np.arange(sample_num):
