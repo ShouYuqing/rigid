@@ -23,6 +23,7 @@ import losses
 sys.path.append('../ext/image')
 from image.aug_image import rotate_img
 
+
 ## some data prep
 # Volume size used in our experiments. Please change to suit your data.
 vol_size = (160, 192, 224)

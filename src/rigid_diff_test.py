@@ -25,6 +25,7 @@ from medipy.metrics import dice
 import datagenerators
 sys.path.append('../ext/image')
 from image.aug_image import rotate_img
+from image.aug_image import plot_grid
 
 # test_examples1/2
 test_brain_file = open('../data/test_examples2.txt')

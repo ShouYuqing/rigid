@@ -1,11 +1,18 @@
 """
-3D image augmentation
+3D operation
 """
 
+# lib
 import math
-import numpy as np
 import matplotlib.pyplot as plt
 from scipy.interpolate import interpn
+
+# plot
+from mpl_toolkits.mplot3d import Axes3D
+import matplotlib.pyplot as plt
+from matplotlib import cm
+from matplotlib.ticker import LinearLocator, FormatStrFormatter
+import numpy as np
 
 
 def rotate_img(img, vol_size = (160,192,224), theta = 0, beta = 0 ,omega = 0):
@@ -67,6 +74,18 @@ def rotate_img(img, vol_size = (160,192,224), theta = 0, beta = 0 ,omega = 0):
     post_img = interpn((yy, xx, zz), img[:, :, :], transformed_grid, method='nearest', bounds_error=False,
                    fill_value=0)
     return post_img
+
+
+def plot_grid(X, Y, Z):
+    """
+    plot for grid data, used for plot the registration field
+    :param X: X grid
+    :param Y: Y grid
+    :param Z: Z grid
+    :return: None
+    """
+
+
 
 if __name__ == "__main__":
     img = np.load("atlas_norm.npz")
