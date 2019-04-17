@@ -1,1 +1,2 @@
-GSP_081030_NC89WB_FS_mri_talairach_norm.npz
+/home/ys895/resize256/resize256-crop_x32/FromEugenio_prep/vols/990114_vc722.npz,/home/ys895/resize256/resize256-crop_x32/FromEugenio_prep/segs/990114_vc722.npz
+/home/ys895/resize256/resize256-crop_x32/FromEugenio_prep/vols/990210_vc792.npz,/home/ys895/resize256/resize256-crop_x32/FromEugenio_prep/segs/990210_vc792.npz
