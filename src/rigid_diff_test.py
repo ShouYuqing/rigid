@@ -114,8 +114,12 @@ def test(gpu_id, iter_num,
 
         # save warped volume fig
         plt.figure()
+        plt.subplot(1,2,1)
+        plt.imshow(X_vol[0, :, :, :, 0])
+        #plt.savefig("X_vol" + str(k) + ".png")
+        plt.subplot(1,2,2)
         plt.imshow(warp_vol[:, 90, :])
-        plt.savefig("warp_vol.png")
+        plt.savefig("img" + str(k) + ".png")
 
 if __name__ == "__main__":
     """
