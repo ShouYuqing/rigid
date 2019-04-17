@@ -88,6 +88,8 @@ def test(gpu_id, model_dir, iter_num,
             warp_seg = util.warp_seg(X_seg, flow, grid=grid, xx=xx, yy=yy, zz=zz)
 
         else:  # GPU
+            flow = pred[0, :, :, :, :]
+
             warp_seg = nn_trf_model.predict([X_seg, pred])[0,...,0]
         
         # compute Volume Overlap (Dice)
