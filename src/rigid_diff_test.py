@@ -107,6 +107,7 @@ def test(gpu_id, iter_num,
             flow = pred[0, :, :, :, :]
             warp_seg = util.warp_seg(X_seg, flow, grid=grid, xx=xx, yy=yy, zz=zz)
         else:  # GPU
+            sample_num = 10
             flow = pred[0, :, :, :, :]
 
             # sample coordinate(sample_num * sample_num * sample_num)
