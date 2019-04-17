@@ -88,12 +88,14 @@ def test(gpu_id, iter_num,
         # get data
         vol_name, seg_name = test_brain_strings[k].split(",")
         X_vol, X_seg = datagenerators.load_example_by_name(vol_name, seg_name)
+        orig_vol = X_vol
 
-        theta = 1
+        theta = 5
         X_seg = rotate_img(X_seg[0, :, :, :, 0], theta = theta, beta = 0, omega = 0)
         X_vol = rotate_img(X_vol[0, :, :, :, 0], theta = theta, beta = 0, omega = 0)
         X_seg = X_seg.reshape((1,) + X_seg.shape + (1,))
         X_vol = X_vol.reshape((1,) + X_vol.shape + (1,))
+
         # predict transform
         with tf.device(gpu):
             pred = diff_net.predict([X_vol, atlas_vol])
@@ -112,13 +114,14 @@ def test(gpu_id, iter_num,
         if save_file is not None:
             sio.savemat(save_file, {'dice_vals': dice_vals, 'labels': good_labels})
 
-        # plot warped volume fig
+        # specify slice
         num_slice = 90
         plt.figure()
-        plt.subplot(1,2,1)
+        plt.subplot(1, 3, 1)
+        plt.figure(orig_vol[0, :, num_slice, :, 0])
+        plt.subplot(1, 3, 2)
         plt.imshow(X_vol[0, :, num_slice, :, 0])
-        #plt.savefig("X_vol" + str(k) + ".png")
-        plt.subplot(1,2,2)
+        plt.subplot(1, 3, 3)
         plt.imshow(warp_vol[:, num_slice, :])
         plt.savefig("slice"+ str(num_slice) + '_' + str(k) + ".png")
 
