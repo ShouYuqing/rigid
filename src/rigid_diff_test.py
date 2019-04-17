@@ -112,9 +112,9 @@ def test(gpu_id, iter_num,
         if save_file is not None:
             sio.savemat(save_file, {'dice_vals': dice_vals, 'labels': good_labels})
 
-        # save volume fig
+        # save warped volume fig
         plt.figure()
-        plt.imshow(warp_vol[0, :, 90, :, 0])
+        plt.imshow(warp_vol[:, 90, :])
         plt.savefig("warp_vol.png")
 
 if __name__ == "__main__":
