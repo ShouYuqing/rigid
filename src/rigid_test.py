@@ -62,9 +62,11 @@ def test(load_iters, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_de
 
     orig_vol = X_vol
 
-    beta = 4
-    X_seg = rotate_img(X_seg[0, :, :, :, 0], theta=0, beta=beta, omega=0)
-    X_vol = rotate_img(X_vol[0, :, :, :, 0], theta=0, beta=beta, omega=0)
+    theta = 4
+    beta = 0
+    omega = 0
+    X_seg = rotate_img(X_seg[0, :, :, :, 0], theta=theta, beta=beta, omega=omega)
+    X_vol = rotate_img(X_vol[0, :, :, :, 0], theta=theta, beta=beta, omega=omega)
     X_seg = X_seg.reshape((1,) + X_seg.shape + (1,))
     X_vol = X_vol.reshape((1,) + X_vol.shape + (1,))
 
