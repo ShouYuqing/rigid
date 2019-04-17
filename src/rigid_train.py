@@ -107,8 +107,8 @@ def train(model, model_dir, gpu_id, lr, n_iterations, reg_param, model_save_iter
         X = next(train_example_gen)[0]
 
         # data augmentation
-        theta = np.random.uniform(low=0.0, high=5.0, size=None)
-        beta = 0
+        theta = 0
+        beta = np.random.uniform(low=0.0, high=5.0, size=None)
         omega = 0
         #beta = np.random.uniform(low=0.0, high=5.0, size=None)
         #omega = np.random.uniform(low=0.0, high=5.0, size=None)
@@ -172,7 +172,7 @@ if __name__ == "__main__":
                         dest="reg_param", default=1.0,
                         help="regularization parameter")
     parser.add_argument("--checkpoint_iter", type=int,
-                        dest="model_save_iter", default=100,
+                        dest="model_save_iter", default=10,
                         help="frequency of model saves")
     parser.add_argument("--model_dir", type=str,
                         dest="model_dir", default='/home/ys895/rigid_model/',

@@ -24,7 +24,7 @@ import neuron.layers as nrn_layers
 import neuron.utils as util
 import neuron.plot as nplt
 
-def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=[32,32,32,32,32,16,16,3], model_name = "vm2_cc", sample_num = 10, grid_dimension = 4):
+def test(load_iters, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=[32,32,32,32,32,16,16,3], sample_num = 10, grid_dimension = 4):
     """
     Test of the rigid registration by calculating the dice score between the atlas's segmentation and warped image's segmentation
     :param iter_num: iteration number
@@ -56,9 +56,17 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     # load weights of model
     with tf.device(gpu):
         net = networks.unet(vol_size, nf_enc, nf_dec)
-        net.load_weights('../models/' + model_name + '.h5', by_name=True)
+        net.load_weights('../rigid_model/' + load_iters + '.h5', by_name=True)
 
     X_vol, X_seg = datagenerators.load_example_by_name('../data/test_vol.npz', '../data/test_seg.npz')
+
+    orig_vol = X_vol
+
+    beta = 4
+    X_seg = rotate_img(X_seg[0, :, :, :, 0], theta=0, beta=beta, omega=0)
+    X_vol = rotate_img(X_vol[0, :, :, :, 0], theta=0, beta=beta, omega=0)
+    X_seg = X_seg.reshape((1,) + X_seg.shape + (1,))
+    X_vol = X_vol.reshape((1,) + X_vol.shape + (1,))
 
     with tf.device(gpu):
         pred = net.predict([X_vol, atlas_vol])
@@ -142,33 +150,47 @@ def test(iter_num, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_dec=
     zz = np.arange(vol_size[2])
     shifted_grid = np.stack((shifted_grid[:, :, :, 1], shifted_grid[:, :, :, 0], shifted_grid[:, :, :, 2]), 3)# notice: the shifted_grid is reverse in x and y, so this step is used for making it back.
     warp_seg = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], shifted_grid, method='nearest', bounds_error=False, fill_value=0)# rigid registration
+    warp_vol = interpn((yy, xx, zz), X_vol[0, :, :, :, 0], shifted_grid, method='nearest', bounds_error=False, fill_value=0)# rigid registration
 
     # CVPR
-    grid = np.rollaxis(np.array(np.meshgrid(xx, yy, zz)), 0, 4)
-    sample = flow + grid
-    sample = np.stack((sample[:, :, :, 1], sample[:, :, :, 0], sample[:, :, :, 2]), 3)
-    warp_seg2 = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], sample, method='nearest', bounds_error=False, fill_value=0)# deformable registration
+    #grid = np.rollaxis(np.array(np.meshgrid(xx, yy, zz)), 0, 4)
+    #sample = flow + grid
+    #sample = np.stack((sample[:, :, :, 1], sample[:, :, :, 0], sample[:, :, :, 2]), 3)
+    #warp_seg2 = interpn((yy, xx, zz), X_seg[0, :, :, :, 0], sample, method='nearest', bounds_error=False, fill_value=0)# deformable registration
 
     # compute dice
     vals, _ = dice(warp_seg, atlas_seg, labels=labels, nargout=2)
-    vals2, _ = dice(X_seg[0, :, :, :, 0], atlas_seg, labels=labels, nargout=2)
-    vals3, _ = dice(warp_seg2, atlas_seg, labels=labels, nargout=2)
-    print("dice before:")
-    print(np.mean(vals2), np.std(vals2))
-    print("dice after deformable registration:")
-    print(np.mean(vals3), np.std(vals3))
+    #vals2, _ = dice(X_seg[0, :, :, :, 0], atlas_seg, labels=labels, nargout=2)
+    #vals3, _ = dice(warp_seg2, atlas_seg, labels=labels, nargout=2)
+    #print("dice before:")
+    #print(np.mean(vals2), np.std(vals2))
+    #print("dice after deformable registration:")
+    #print(np.mean(vals3), np.std(vals3))
     print("dice after rigid registration:")
     print(np.mean(vals), np.std(vals))
 
     # plot
-    fig1, axs1 = nplt.slices(warp_seg[100, :, :], do_colorbars=True)
-    fig1.savefig('warp_seg100.png')
-    fig2, axs2 = nplt.slices(warp_seg[130, :, :], do_colorbars=True)
-    fig2.savefig('warp_seg130.png')
-    fig3, axs3 = nplt.slices(atlas_seg[100, :, :], do_colorbars=True)
-    fig3.savefig('atlas_seg100.png')
-    fig4, axs4 = nplt.slices(atlas_seg[130, :, :], do_colorbars=True)
-    fig4.savefig('atlas_seg130.png')
+    #fig1, axs1 = nplt.slices(warp_seg[100, :, :], do_colorbars=True)
+    #fig1.savefig('warp_seg100.png')
+    #fig2, axs2 = nplt.slices(warp_seg[130, :, :], do_colorbars=True)
+    #fig2.savefig('warp_seg130.png')
+    #fig3, axs3 = nplt.slices(atlas_seg[100, :, :], do_colorbars=True)
+    #fig3.savefig('atlas_seg100.png')
+    #fig4, axs4 = nplt.slices(atlas_seg[130, :, :], do_colorbars=True)
+    #fig4.savefig('atlas_seg130.png')
+
+    # specify slice
+    num_slice = 90
+
+    plt.figure()
+    plt.subplot(1, 3, 1)
+    plt.imshow(orig_vol[0, :, num_slice, :, 0])
+    plt.subplot(1, 3, 2)
+    plt.imshow(X_vol[0, :, num_slice, :, 0])
+    plt.subplot(1, 3, 3)
+    plt.imshow(warp_vol[:, num_slice, :])
+    plt.savefig("slice" + str(num_slice) + '_' + str(k) + ".png")
+
 
 def grid_sample(x, y, z, grid, sample_num):
     """
@@ -188,4 +210,8 @@ def grid_sample(x, y, z, grid, sample_num):
     return sampled_grid
 
 if __name__ == "__main__":
+    """
+    arg1: load model
+    arg2: gpu id
+    """
     test(sys.argv[1], sys.argv[2])
