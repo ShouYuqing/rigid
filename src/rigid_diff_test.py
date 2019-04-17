@@ -176,22 +176,22 @@ def test(gpu_id, iter_num,
             shifted_grid = np.rollaxis(np.array((np.meshgrid(shifted_y, shifted_x, shifted_z))), 0, 4)
 
             # some required matrixs
-            T1 = np.array([[1, 0, 0, 0],
-                           [0, 1, 0, 0],
-                           [0, 0, 1, 0],
-                           [-int(vol_size[0] / 2), -int(vol_size[1] / 2), -int(vol_size[2] / 2), 1]])
-            T1 = T1.transpose()
+            #T1 = np.array([[1, 0, 0, 0],
+            #               [0, 1, 0, 0],
+            #               [0, 0, 1, 0],
+            #               [-int(vol_size[0] / 2), -int(vol_size[1] / 2), -int(vol_size[2] / 2), 1]])
+            #T1 = T1.transpose()
 
-            T2 = np.array([[1, 0, 0, 0],
-                           [0, 1, 0, 0],
-                           [0, 0, 1, 0],
-                           [int(vol_size[0] / 2), int(vol_size[1] / 2), int(vol_size[2] / 2), 1]])
-            T2 = T2.transpose()
+            #T2 = np.array([[1, 0, 0, 0],
+            #               [0, 1, 0, 0],
+            #               [0, 0, 1, 0],
+            #               [int(vol_size[0] / 2), int(vol_size[1] / 2), int(vol_size[2] / 2), 1]])
+            #T2 = T2.transpose()
 
             for i in np.arange(vol_size[0]):
                 for j in np.arange(vol_size[1]):
                     for z in np.arange(vol_size[2]):
-                        coordinates = np.dot(T2, np.dot(R, np.dot(T1, np.array([i, j, z, 1])).reshape(4, 1)) + T.reshape(4, 1))
+                        coordinates = np.dot(R, np.array([i, j, z, 1]).reshape(4, 1)) + T.reshape(4, 1)
                         # print("voxel." + '(' + str(i) + ',' + str(j) + ',' + str(z) + ')')
                         shifted_grid[i, j, z, 1] = coordinates[0]
                         shifted_grid[i, j, z, 0] = coordinates[1]
