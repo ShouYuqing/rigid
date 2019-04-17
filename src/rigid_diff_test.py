@@ -39,7 +39,7 @@ atlas_vol = atlas['vol'][np.newaxis, ..., np.newaxis]
 atlas_seg = atlas['seg']
 
 
-def test(gpu_id, iter_num, 
+def test(gpu_id, iter_num,
          compute_type='GPU',  # GPU or CPU
          vol_size=(160, 192, 224),
          nf_enc=[16, 32, 32, 32],
@@ -119,6 +119,7 @@ def test(gpu_id, iter_num,
 
         plt.figure()
         plt.subplot(1, 3, 1)
+        print(orig_vol.shape)
         plt.figure(orig_vol[0, :, num_slice, :, 0])
         plt.subplot(1, 3, 2)
         plt.imshow(X_vol[0, :, num_slice, :, 0])
