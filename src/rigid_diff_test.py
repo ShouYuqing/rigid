@@ -90,6 +90,7 @@ def test(gpu_id, iter_num,
         vol_name, seg_name = test_brain_strings[k].split(",")
         X_vol, X_seg = datagenerators.load_example_by_name(vol_name, seg_name)
         orig_vol = X_vol
+        orig_seg = X_seg
 
         theta = 0
         beta = 4
@@ -99,7 +100,7 @@ def test(gpu_id, iter_num,
         X_seg = X_seg.reshape((1,) + X_seg.shape + (1,))
         X_vol = X_vol.reshape((1,) + X_vol.shape + (1,))
 
-        sample_num = 10
+        sample_num = 20
         grid_dimension = 4
 
         # predict transform
@@ -209,7 +210,7 @@ def test(gpu_id, iter_num,
                                fill_value=0)  # rigid registration
 
         # compute Volume Overlap (Dice)
-        dice_vals[:, k] = dice(warp_seg, X_seg[0, :, :, :, 0], labels=good_labels)
+        dice_vals[:, k] = dice(warp_seg, orig_seg[0, :, :, :, 0], labels=good_labels)
         print('%3d %5.3f %5.3f' % (k, np.mean(dice_vals[:, k]), np.mean(np.mean(dice_vals[:, :k + 1]))))
 
         if save_file is not None:
