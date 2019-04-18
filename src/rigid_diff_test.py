@@ -93,7 +93,7 @@ def test(gpu_id, iter_num,
         orig_seg = X_seg
 
         theta = 0
-        beta = 4
+        beta = 20
         omega = 0
         X_seg = rotate_img(X_seg[0, :, :, :, 0], theta = theta, beta = beta, omega = omega)
         X_vol = rotate_img(X_vol[0, :, :, :, 0], theta = theta, beta = beta, omega = omega)
