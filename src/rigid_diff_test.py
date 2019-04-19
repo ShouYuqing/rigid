@@ -100,7 +100,7 @@ def test(gpu_id, iter_num,
         X_seg = X_seg.reshape((1,) + X_seg.shape + (1,))
         X_vol = X_vol.reshape((1,) + X_vol.shape + (1,))
 
-        sample_num = 20
+        sample_num = 30
         grid_dimension = 4
 
         # predict transform
@@ -148,6 +148,9 @@ def test(gpu_id, iter_num,
             ave_x = sum_x / (vol_size[0] * vol_size[1] * vol_size[2])
             ave_y = sum_y / (vol_size[0] * vol_size[1] * vol_size[2])
             ave_z = sum_z / (vol_size[0] * vol_size[1] * vol_size[2])
+            print(ave_x)
+            print(ave_y)
+            print(ave_z)
 
             # formula
             Y = np.zeros((sample_num, sample_num, sample_num, grid_dimension))
