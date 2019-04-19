@@ -34,7 +34,7 @@ def rotate_img(img, vol_size = (160,192,224), theta = 0, beta = 0 ,omega = 0):
                   [0, -math.sin(theta), math.cos(theta), 0],
                   [0, 0, 0, 1]])
     TY = np.array([[math.cos(beta), 0, -math.sin(beta), 0],
-                  [0, 1, 0, 0],
+                   [0, 1, 0, 0],
                   [math.sin(beta), 0, math.cos(beta), 0],
                   [0, 0, 0, 1]])
     TZ = np.array([[math.cos(omega), math.sin(omega), 0, 0],

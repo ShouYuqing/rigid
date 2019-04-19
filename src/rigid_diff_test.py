@@ -148,12 +148,6 @@ def test(gpu_id, iter_num,
             ave_x = sum_x / (vol_size[0] * vol_size[1] * vol_size[2])
             ave_y = sum_y / (vol_size[0] * vol_size[1] * vol_size[2])
             ave_z = sum_z / (vol_size[0] * vol_size[1] * vol_size[2])
-            print("flow_y: ")
-            print(flow[50, 90, 50, 0])
-            print(flow[150, 90, 150, 0])
-            print(ave_x)
-            print(ave_y)
-            print(ave_z)
 
             # formula
             Y = np.zeros((sample_num, sample_num, sample_num, grid_dimension))
@@ -165,7 +159,7 @@ def test(gpu_id, iter_num,
                 for j in np.arange(sample_num):
                     for z in np.arange(sample_num):
                         Y[i, j, z, :] = np.array([sample_x[i, j, z], sample_y[i, j, z], sample_z[i, j, z], 1])
-                        Y[i, j, z, :] = Y[i, j, z, :] - np.array([ave_x, ave_y, ave_z, 0])  # amend: Y` = Y - T
+                        Y[i, j, z, :] = Y[i, j, z, :] - np.array([ave_x, ave_y, ave_z, 1])  # amend: Y` = Y - T
 
             for i in np.arange(sample_num):
                 for j in np.arange(sample_num):
@@ -174,8 +168,16 @@ def test(gpu_id, iter_num,
 
             X = X.reshape((sample_num * sample_num * sample_num, grid_dimension))
             Y = Y.reshape((sample_num * sample_num * sample_num, grid_dimension))
-            R = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(X), X)), np.transpose(X)), Y)  # R(4, 4)
+            #R = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(X), X)), np.transpose(X)), Y)  # R(4, 4)
+            #R = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(X), X)), np.transpose(X)), Y) # new implementation of R
+
+            # experiment with rotation
+            R = np.array([[0.72, 0, -0.72, 0],
+                      [0, 1, 0, 0],
+                      [0.72, 0, 0.72, 0],
+                      [0, 0, 0, 1]])
             print(R)
+            
             # build new grid(Use R to do the spatial transform)
             shifted_x = np.arange(vol_size[0])
             shifted_y = np.arange(vol_size[1])
@@ -183,17 +185,17 @@ def test(gpu_id, iter_num,
             shifted_grid = np.rollaxis(np.array((np.meshgrid(shifted_y, shifted_x, shifted_z))), 0, 4)
 
             # some required matrixs
-            #T1 = np.array([[1, 0, 0, 0],
-            #               [0, 1, 0, 0],
-            #               [0, 0, 1, 0],
-            #               [-int(vol_size[0] / 2), -int(vol_size[1] / 2), -int(vol_size[2] / 2), 1]])
-            #T1 = T1.transpose()
+            T1 = np.array([[1, 0, 0, 0],
+                           [0, 1, 0, 0],
+                           [0, 0, 1, 0],
+                           [-int(vol_size[0] / 2), -int(vol_size[1] / 2), -int(vol_size[2] / 2), 1]])
+            T1 = T1.transpose()
 
-            #T2 = np.array([[1, 0, 0, 0],
-            #               [0, 1, 0, 0],
-            #               [0, 0, 1, 0],
-            #               [int(vol_size[0] / 2), int(vol_size[1] / 2), int(vol_size[2] / 2), 1]])
-            #T2 = T2.transpose()
+            T2 = np.array([[1, 0, 0, 0],
+                           [0, 1, 0, 0],
+                           [0, 0, 1, 0],
+                           [int(vol_size[0] / 2), int(vol_size[1] / 2), int(vol_size[2] / 2), 1]])
+            T2 = T2.transpose()
 
             for i in np.arange(vol_size[0]):
                 for j in np.arange(vol_size[1]):
@@ -231,7 +233,7 @@ def test(gpu_id, iter_num,
         plt.subplot(1, 3, 2)
         plt.imshow(X_vol[0, :, num_slice, :, 0])
         plt.subplot(1, 3, 3)
-        plt.imshow(warp_vol[:, num_slice, :])
+        plt.imshow(warp_vol[num_slice, :, :])
         plt.savefig("slice"+ str(num_slice) + '_' + str(k) + ".png")
 
 def grid_sample(x, y, z, grid, sample_num):
