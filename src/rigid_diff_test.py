@@ -171,13 +171,8 @@ def test(gpu_id, iter_num,
             #R = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(X), X)), np.transpose(X)), Y)  # R(4, 4)
             #R = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(X), X)), np.transpose(X)), Y) # new implementation of R
 
-            # experiment with rotation
-            R = np.array([[0.72, 0, -0.72, 0],
-                      [0, 1, 0, 0],
-                      [0.72, 0, 0.72, 0],
-                      [0, 0, 0, 1]])
             print(R)
-            
+
             # build new grid(Use R to do the spatial transform)
             shifted_x = np.arange(vol_size[0])
             shifted_y = np.arange(vol_size[1])
@@ -233,7 +228,7 @@ def test(gpu_id, iter_num,
         plt.subplot(1, 3, 2)
         plt.imshow(X_vol[0, :, num_slice, :, 0])
         plt.subplot(1, 3, 3)
-        plt.imshow(warp_vol[num_slice, :, :])
+        plt.imshow(warp_vol[:, num_slice, :])
         plt.savefig("slice"+ str(num_slice) + '_' + str(k) + ".png")
 
 def grid_sample(x, y, z, grid, sample_num):
