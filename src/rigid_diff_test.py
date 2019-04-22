@@ -93,14 +93,14 @@ def test(gpu_id, iter_num,
         orig_seg = X_seg
 
         theta = 0
-        beta = 5
+        beta = 10
         omega = 0
         X_seg = rotate_img(X_seg[0, :, :, :, 0], theta = theta, beta = beta, omega = omega)
         X_vol = rotate_img(X_vol[0, :, :, :, 0], theta = theta, beta = beta, omega = omega)
         X_seg = X_seg.reshape((1,) + X_seg.shape + (1,))
         X_vol = X_vol.reshape((1,) + X_vol.shape + (1,))
 
-        sample_num = 10
+        sample_num = 30
         grid_dimension = 4
 
         # predict transform
@@ -153,7 +153,7 @@ def test(gpu_id, iter_num,
             Y = np.zeros((sample_num, sample_num, sample_num, grid_dimension))
             X = np.zeros((sample_num, sample_num, sample_num, grid_dimension))
             T = np.array([ave_x, ave_y, ave_z, 1])  # (4,1)
-            # R = np.zeros((10, 10, 10, grid_dimension, grid_dimension))
+            print(T)
 
             for i in np.arange(sample_num):
                 for j in np.arange(sample_num):
@@ -227,6 +227,8 @@ def test(gpu_id, iter_num,
         plt.subplot(1, 3, 3)
         plt.imshow(warp_vol[:, num_slice, :])
         plt.savefig("slice"+ str(num_slice) + '_' + str(k) + ".png")
+
+
 
 def grid_sample(x, y, z, grid, sample_num):
     """
