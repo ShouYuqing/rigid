@@ -159,7 +159,7 @@ def test(gpu_id, iter_num,
                 for j in np.arange(sample_num):
                     for z in np.arange(sample_num):
                         Y[i, j, z, :] = np.array([sample_x[i, j, z], sample_y[i, j, z], sample_z[i, j, z], 1])
-                        Y[i, j, z, :] = Y[i, j, z, :] - np.array([ave_x, ave_y, ave_z, 0])  # amend: Y` = Y - T
+                        #Y[i, j, z, :] = Y[i, j, z, :] - np.array([ave_x, ave_y, ave_z, 0])  # amend: Y` = Y - T
 
             for i in np.arange(sample_num):
                 for j in np.arange(sample_num):
@@ -175,7 +175,7 @@ def test(gpu_id, iter_num,
             #       [0, 1, 0, 0],
             #      [math.sin(beta), 0, math.cos(beta), 0],
             #      [0, 0, 0, 1]])
-            #R = R.transpose()
+            R = R.transpose()
 
             # build new grid(Use R to do the spatial transform)
             shifted_x = np.arange(vol_size[0])
