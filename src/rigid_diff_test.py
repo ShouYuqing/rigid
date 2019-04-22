@@ -170,11 +170,11 @@ def test(gpu_id, iter_num,
             Y = Y.reshape((sample_num * sample_num * sample_num, grid_dimension))
             R = np.dot(np.dot(np.linalg.pinv(np.dot(np.transpose(X), X)), np.transpose(X)), Y)  # R(4, 4)
             print(R)
-            beta = - (beta / 180) * math.pi
-            R = np.array([[math.cos(beta), 0, -math.sin(beta), 0],
-                   [0, 1, 0, 0],
-                  [math.sin(beta), 0, math.cos(beta), 0],
-                  [0, 0, 0, 1]])
+            #beta = - (beta / 180) * math.pi
+            #R = np.array([[math.cos(beta), 0, -math.sin(beta), 0],
+            #       [0, 1, 0, 0],
+            #      [math.sin(beta), 0, math.cos(beta), 0],
+            #      [0, 0, 0, 1]])
             #R = R.transpose()
 
             # build new grid(Use R to do the spatial transform)
