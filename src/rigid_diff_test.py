@@ -194,9 +194,9 @@ def test(gpu_id, iter_num,
                         #coordinates = np.dot(R, np.array([i, j, z, 1]).reshape(4, 1)) + T.reshape(4, 1)
                         coordinates = np.dot(np.dot(np.dot(np.array([i, j, z, 1]).reshape(1, 4), T1), R), T2) # new implementation
                         # print("voxel." + '(' + str(i) + ',' + str(j) + ',' + str(z) + ')')
-                        shifted_grid[i, j, z, 1] = coordinates[0]
-                        shifted_grid[i, j, z, 0] = coordinates[1]
-                        shifted_grid[i, j, z, 2] = coordinates[2]
+                        shifted_grid[i, j, z, 1] = coordinates[0, 0]
+                        shifted_grid[i, j, z, 0] = coordinates[0, 1]
+                        shifted_grid[i, j, z, 2] = coordinates[0, 2]
 
             # interpolation
             xx = np.arange(vol_size[1])
