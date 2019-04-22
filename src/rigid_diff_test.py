@@ -182,7 +182,7 @@ def test(gpu_id, iter_num,
                            [0, 1, 0, 0],
                            [0, 0, 1, 0],
                            [-int(vol_size[0] / 2), -int(vol_size[1] / 2), -int(vol_size[2] / 2), 1]])
-            
+
 
             T2 = np.array([[1, 0, 0, 0],
                            [0, 1, 0, 0],
