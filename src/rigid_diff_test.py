@@ -189,6 +189,8 @@ def test(gpu_id, iter_num,
                            [0, 0, 1, 0],
                            [int(vol_size[0] / 2), int(vol_size[1] / 2), int(vol_size[2] / 2), 1]])
             T2 = T2.transpose()
+            print(T1)
+            print(T2)
 
             for i in np.arange(vol_size[0]):
                 for j in np.arange(vol_size[1]):
