@@ -192,7 +192,7 @@ def test(gpu_id, iter_num,
                 for j in np.arange(vol_size[1]):
                     for z in np.arange(vol_size[2]):
                         #coordinates = np.dot(R, np.array([i, j, z, 1]).reshape(4, 1)) + T.reshape(4, 1)
-                        coordinates = np.dot(np.dot(np.dot(np.array([i, j, z, 1]).reshape(1, 4), T1), R), T2) + T.reshape(4, 1)# new implementation
+                        coordinates = np.dot(np.dot(np.dot(np.array([i, j, z, 1]).reshape(1, 4), T1), R), T2) + T.reshape(1, 4)# new implementation
                         # print("voxel." + '(' + str(i) + ',' + str(j) + ',' + str(z) + ')')
                         shifted_grid[i, j, z, 1] = coordinates[0, 0]
                         shifted_grid[i, j, z, 0] = coordinates[0, 1]
