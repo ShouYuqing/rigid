@@ -93,7 +93,7 @@ def test(gpu_id, iter_num,
         orig_seg = X_seg
 
         theta = 0
-        beta = 10
+        beta = 0
         omega = 0
         X_seg = rotate_img(X_seg[0, :, :, :, 0], theta = theta, beta = beta, omega = omega)
         X_vol = rotate_img(X_vol[0, :, :, :, 0], theta = theta, beta = beta, omega = omega)
@@ -228,7 +228,14 @@ def test(gpu_id, iter_num,
         plt.imshow(warp_vol[:, num_slice, :])
         plt.savefig("slice"+ str(num_slice) + '_' + str(k) + ".png")
 
-
+        plt.figure()
+        plt.subplot(1, 3, 1)
+        plt.imshow(flow[:, num_slice, :, 1])
+        plt.subplot(1, 3, 2)
+        plt.imshow(flow[:, num_slice, :, 0])
+        plt.subplot(1, 3, 3)
+        plt.imshow(flow[:, num_slice, :, 2])
+        plt.savefig("flow.png")
 
 def grid_sample(x, y, z, grid, sample_num):
     """
