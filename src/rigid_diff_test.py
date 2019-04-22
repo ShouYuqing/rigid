@@ -175,7 +175,7 @@ def test(gpu_id, iter_num,
                    [0, 1, 0, 0],
                   [math.sin(beta), 0, math.cos(beta), 0],
                   [0, 0, 0, 1]])
-            R = R.transpose()
+            #R = R.transpose()
 
             # build new grid(Use R to do the spatial transform)
             shifted_x = np.arange(vol_size[0])
