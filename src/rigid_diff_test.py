@@ -178,16 +178,16 @@ def test(gpu_id, iter_num,
             shifted_grid = np.rollaxis(np.array((np.meshgrid(shifted_y, shifted_x, shifted_z))), 0, 4)
 
             # some required matrixs
-            T1 = np.array([[1, 0, 0, 0],
-                           [0, 1, 0, 0],
+            T1 = np.array([[0, 1, 0, 0],
+                           [1, 0, 0, 0],
                            [0, 0, 1, 0],
-                           [-int(vol_size[0] / 2), -int(vol_size[1] / 2), -int(vol_size[2] / 2), 1]])
+                           [-int(vol_size[1] / 2), -int(vol_size[0] / 2), -int(vol_size[2] / 2), 1]])
             T1 = T1.transpose()
 
-            T2 = np.array([[1, 0, 0, 0],
-                           [0, 1, 0, 0],
+            T2 = np.array([[0, 1, 0, 0],
+                           [1, 0, 0, 0],
                            [0, 0, 1, 0],
-                           [int(vol_size[0] / 2), int(vol_size[1] / 2), int(vol_size[2] / 2), 1]])
+                           [int(vol_size[1] / 2), int(vol_size[0] / 2), int(vol_size[2] / 2), 1]])
             T2 = T2.transpose()
 
             for i in np.arange(vol_size[0]):
