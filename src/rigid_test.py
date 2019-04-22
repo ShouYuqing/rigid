@@ -62,8 +62,8 @@ def test(load_iters, gpu_id, vol_size=(160,192,224), nf_enc=[16,32,32,32], nf_de
 
     orig_vol = X_vol
 
-    theta = 4
-    beta = 0
+    theta = 0
+    beta = 4
     omega = 0
     X_seg = rotate_img(X_seg[0, :, :, :, 0], theta=theta, beta=beta, omega=omega)
     X_vol = rotate_img(X_vol[0, :, :, :, 0], theta=theta, beta=beta, omega=omega)
