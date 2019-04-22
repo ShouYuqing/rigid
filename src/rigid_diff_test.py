@@ -93,14 +93,14 @@ def test(gpu_id, iter_num,
         orig_seg = X_seg
 
         theta = 0
-        beta = 20
+        beta = 5
         omega = 0
         X_seg = rotate_img(X_seg[0, :, :, :, 0], theta = theta, beta = beta, omega = omega)
         X_vol = rotate_img(X_vol[0, :, :, :, 0], theta = theta, beta = beta, omega = omega)
         X_seg = X_seg.reshape((1,) + X_seg.shape + (1,))
         X_vol = X_vol.reshape((1,) + X_vol.shape + (1,))
 
-        sample_num = 30
+        sample_num = 10
         grid_dimension = 4
 
         # predict transform
