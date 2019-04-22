@@ -6,7 +6,7 @@ Test for rigid registration using diffeomorphic transforms
 import os
 import sys
 import glob
-
+import math
 # third party
 import tensorflow as tf
 import scipy.io as sio
